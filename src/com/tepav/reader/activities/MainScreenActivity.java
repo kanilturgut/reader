@@ -1,4 +1,4 @@
-package com.tepav.reader;
+package com.tepav.reader.activities;
 
 import android.app.Activity;
 import android.content.res.Configuration;
@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import com.example.Reader.R;
+import com.tepav.reader.R;
 
 /**
  * Created with IntelliJ IDEA.
