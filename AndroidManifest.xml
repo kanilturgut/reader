@@ -7,7 +7,6 @@
     <uses-sdk android:minSdkVersion="14"/>
     <application
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light"
             android:icon="@drawable/appicon">
         <activity
                 android:name=".activities.SplashActivity"
