@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import com.example.Reader.R;
 import com.tepav.reader.R;
 
 public class SplashActivity extends Activity {
@@ -21,6 +20,6 @@ public class SplashActivity extends Activity {
             public void run() {
                startActivity(new Intent(SplashActivity.this, MainScreenActivity.class));
             }
-        }, 3000);
+        }, 1000);
     }
 }

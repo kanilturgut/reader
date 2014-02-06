@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <FrameLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    <RelativeLayout
+            android:id="@+id/relativeDrawerLayout"
+            android:layout_width="320dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#565267">
+
+        <ListView
+                android:id="@+id/listViewDrawer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:choiceMode="singleChoice"
+                android:divider="#484848"
+                android:dividerHeight="0.1dp"/>
+
+        <ListView
+                android:id="@+id/listViewDrawer1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:choiceMode="singleChoice"
+                android:layout_below="@+id/listViewDrawer"
+                android:background="#666666"
+                android:divider="#484848"
+                android:dividerHeight="0.1dp"/>
+
+        <ListView
+                android:id="@+id/listViewDrawer2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/listViewDrawer1"
+                android:choiceMode="singleChoice"
+                android:divider="#484848"
+                android:dividerHeight="0.1dp"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
