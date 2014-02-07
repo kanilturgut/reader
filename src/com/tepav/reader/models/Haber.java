@@ -1,5 +1,6 @@
 package com.tepav.reader.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * Date: 06/02/14
  * Time: 17:47
  */
-public class Haber {
+public class Haber implements Serializable{
 
     private String haber_id;
     private String htitle;

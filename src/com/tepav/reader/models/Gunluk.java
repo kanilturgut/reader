@@ -1,12 +1,14 @@
 package com.tepav.reader.models;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Umut Ozan Yıldırım
  * Date: 06/02/14
  * Time: 17:53
  */
-public class Gunluk {
+public class Gunluk implements Serializable {
 
     private String gunluk_id;
     private String btitle;

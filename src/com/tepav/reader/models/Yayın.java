@@ -1,5 +1,6 @@
 package com.tepav.reader.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * Date: 06/02/14
  * Time: 18:01
  */
-public class Yayın {
+public class Yayın implements Serializable {
 
     private String yayin_id;
     private String ytitle;

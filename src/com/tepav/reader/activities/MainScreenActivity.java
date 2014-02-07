@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,10 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.*;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
+import android.widget.*;
 import com.tepav.reader.R;
 import com.tepav.reader.adapters.HaberListAdapter;
 import com.tepav.reader.adapters.NavigationDrawerAdapter;
@@ -164,6 +162,31 @@ public class MainScreenActivity extends Activity implements HaberServiceDelegate
 
             View rootView = inflater.inflate(R.layout.fragment_main_content, container, false);
             listOfMainContent = (ListView) rootView.findViewById(R.id.lvMainContent);
+            listOfMainContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                    Intent detailIntent = new Intent(MainScreenActivity.this, DetailsActivity.class);
+
+                    switch (position) {
+                        case 0:
+                            Haber newHaber = (Haber) listOfMainContent.getItemAtPosition(position);
+                            detailIntent.putExtra("class", newHaber);
+                            startActivity(detailIntent);
+                            break;
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                        case 6:
+                        case 7:
+                        case 8:
+                            Toast.makeText(MainScreenActivity.this, "Implement edilmedi", Toast.LENGTH_LONG).show();
+                            break;
+                    }
+                }
+            });
 
             setTitle(TITLES[getArguments().getInt(ARG_MAIN_CONTENT_NUMBER)]);
 
