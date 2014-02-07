@@ -4,7 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import com.tepav.reader.R;
+import com.tepav.reader.delegates.HaberServiceDelegate;
+import com.tepav.reader.services.BaseRequestService;
+import com.tepav.reader.services.HaberService;
+
+import java.util.Map;
 
 public class SplashActivity extends Activity {
     /**
@@ -21,5 +27,7 @@ public class SplashActivity extends Activity {
                startActivity(new Intent(SplashActivity.this, MainScreenActivity.class));
             }
         }, 1000);
+
     }
+
 }

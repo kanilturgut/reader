@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +18,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import com.tepav.reader.R;
 import com.tepav.reader.adapters.NavigationDrawerAdapter;
+import com.tepav.reader.delegates.HaberServiceDelegate;
+import com.tepav.reader.services.BaseRequestService;
+import com.tepav.reader.services.HaberService;
+
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,7 +30,7 @@ import com.tepav.reader.adapters.NavigationDrawerAdapter;
  * Date: 02.02.2014
  * Time: 23:03
  */
-public class MainScreenActivity extends Activity {
+public class MainScreenActivity extends Activity implements HaberServiceDelegate {
 
     private DrawerLayout mDrawerLayout = null;
     private ActionBarDrawerToggle mDrawerToggle = null;
@@ -82,6 +88,8 @@ public class MainScreenActivity extends Activity {
         if (savedInstanceState == null) {
             selectItem(0);
         }
+
+
     }
 
     @Override
@@ -130,6 +138,12 @@ public class MainScreenActivity extends Activity {
         mDrawerList.setItemChecked(position, true);
         getActionBar().setTitle(TITLES[position]);
         mDrawerLayout.closeDrawer(myRelativeDrawerLayout);
+
+        if (position == 0) {
+            // Open wait diaog
+            HaberService haberService = new HaberService(this);
+            haberService.getHaberList();
+        }
     }
 
     public class MainContentFragment extends Fragment {
@@ -150,5 +164,20 @@ public class MainScreenActivity extends Activity {
 
             return rootView;
         }
+    }
+
+    @Override
+    public void haberListRequestDidFinish(Map responseMap) {
+        System.out.print("asd");
+    }
+
+    @Override
+    public void nextHaberListRequestDidFinish(Map responseMap) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void prevHaberListRequestDidFinish(Map responseMap) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
