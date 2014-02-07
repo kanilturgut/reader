@@ -3,6 +3,7 @@ package com.tepav.reader.activities;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,11 +18,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import com.tepav.reader.R;
+import com.tepav.reader.adapters.HaberListAdapter;
 import com.tepav.reader.adapters.NavigationDrawerAdapter;
 import com.tepav.reader.delegates.HaberServiceDelegate;
+import com.tepav.reader.models.Haber;
 import com.tepav.reader.services.BaseRequestService;
 import com.tepav.reader.services.HaberService;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -38,6 +43,8 @@ public class MainScreenActivity extends Activity implements HaberServiceDelegate
 
     private ListView mDrawerList = null;
     private ListView listOfMainContent = null;
+
+    private ProgressDialog progressDialog = null;
 
     String[] TITLES = {"Haberler", "Günlük", "Araştırma ve Yayınlar", "Raporlar", "Notlar", "Basılı Yayınlar", "Okuma Listem", "Favoriler", "Giriş Yap"};
 
@@ -140,7 +147,7 @@ public class MainScreenActivity extends Activity implements HaberServiceDelegate
         mDrawerLayout.closeDrawer(myRelativeDrawerLayout);
 
         if (position == 0) {
-            // Open wait diaog
+            progressDialog = ProgressDialog.show(this, "Bekleyiniz", "Yükleniyor", false, false);
             HaberService haberService = new HaberService(this);
             haberService.getHaberList();
         }
@@ -156,9 +163,7 @@ public class MainScreenActivity extends Activity implements HaberServiceDelegate
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
             View rootView = inflater.inflate(R.layout.fragment_main_content, container, false);
-
             listOfMainContent = (ListView) rootView.findViewById(R.id.lvMainContent);
-            listOfMainContent.setAdapter(new ArrayAdapter<String>(MainScreenActivity.this, android.R.layout.simple_list_item_1, TITLES));
 
             setTitle(TITLES[getArguments().getInt(ARG_MAIN_CONTENT_NUMBER)]);
 
@@ -168,7 +173,8 @@ public class MainScreenActivity extends Activity implements HaberServiceDelegate
 
     @Override
     public void haberListRequestDidFinish(Map responseMap) {
-        System.out.print("asd");
+        listOfMainContent.setAdapter(new HaberListAdapter(this, (ArrayList<Haber>) responseMap.get("haberList")));
+        progressDialog.dismiss();
     }
 
     @Override
