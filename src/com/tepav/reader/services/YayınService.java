@@ -24,6 +24,11 @@ public class YayınService {
 
     private YayınServiceDelegate yayınServiceDelegate;
 
+    public static final String YAYIN_TYPE_RAPOR        = "1";
+    public static final String YAYIN_TYPE_NOT          = "3";
+    public static final String YAYIN_TYPE_BASILI_YAYIN = "12";
+
+
     public YayınService(YayınServiceDelegate yayınServiceDelegate) {
         this.yayınServiceDelegate = yayınServiceDelegate;
     }
@@ -93,7 +98,9 @@ public class YayınService {
             JSONObject nav        = jsonObject.getJSONObject("nav");
 
             Map responseMap = new HashMap();
-            List<Yayın> yayınList = new ArrayList<Yayın>();
+            List<Yayın> basılıYayınList  = new ArrayList<Yayın>();
+            List<Yayın> notList          = new ArrayList<Yayın>();
+            List<Yayın> raporList        = new ArrayList<Yayın>();
 
             for (int i = 0 ; i < dataList.length() ; i++) {
                 JSONObject yayınJson = dataList.getJSONObject(i);
@@ -118,12 +125,20 @@ public class YayınService {
 
                 }
 
-                yayınList.add(yayın);
+                if (yayın.getYtype_id().equals(YAYIN_TYPE_BASILI_YAYIN))
+                    basılıYayınList.add(yayın);
+                else if(yayın.getYtype_id().equals(YAYIN_TYPE_NOT))
+                    notList.add(yayın);
+                else if (yayın.getYtype_id().equals(YAYIN_TYPE_RAPOR))
+                    raporList.add(yayın);
+
             }
 
-            responseMap.put("yayınList" , yayınList);
-            responseMap.put("next"      , nav.getString("next"));
-            responseMap.put("prev"      , nav.getString("prev"));
+            responseMap.put("basılıYayınList" , basılıYayınList);
+            responseMap.put("notList"         , notList);
+            responseMap.put("raporList"       , raporList);
+            responseMap.put("next"            , nav.getString("next"));
+            responseMap.put("prev"            , nav.getString("prev"));
 
             return responseMap;
         }
