@@ -9,7 +9,7 @@ import java.util.List;
  * Date: 06/02/14
  * Time: 18:01
  */
-public class Yayın implements Serializable {
+public class Yayin implements Serializable {
 
     private String yayin_id;
     private String ytitle;
