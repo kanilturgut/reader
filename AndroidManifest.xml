@@ -20,6 +20,6 @@
         </activity>
         <activity
                 android:name=".activities.MainScreenActivity"/>
-        <activity android:name=".activities.DetailsActivity"/>
+        <activity android:name=".activities.HaberDetailsActivity"/>
     </application>
 </manifest>

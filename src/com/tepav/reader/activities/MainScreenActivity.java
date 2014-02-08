@@ -33,7 +33,7 @@ import java.util.Map;
  * Date: 02.02.2014
  * Time: 23:03
  */
-public class MainScreenActivity extends Activity implements HaberServiceDelegate {
+public class MainScreenActivity extends Activity{
 
     private DrawerLayout mDrawerLayout = null;
     private ActionBarDrawerToggle mDrawerToggle = null;
@@ -42,7 +42,9 @@ public class MainScreenActivity extends Activity implements HaberServiceDelegate
     private ListView mDrawerList = null;
     private ListView listOfMainContent = null;
 
-    private ProgressDialog progressDialog = null;
+    public static final int HABER_SERVICE = 0;
+    public static final int GUNLUK_SERVICE = 1;
+    public static final int YAYIN_SERVICE = 2;
 
     String[] TITLES = {"Haberler", "Günlük", "Araştırma ve Yayınlar", "Raporlar", "Notlar", "Basılı Yayınlar", "Okuma Listem", "Favoriler", "Giriş Yap"};
 
@@ -107,7 +109,7 @@ public class MainScreenActivity extends Activity implements HaberServiceDelegate
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (mDrawerToggle.onOptionsItemSelected(item)){
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -131,8 +133,7 @@ public class MainScreenActivity extends Activity implements HaberServiceDelegate
     private void selectItem(int position) {
 
         //Update main content
-
-        Fragment fragment = new MainContentFragment();
+        Fragment fragment = new MainContentFragment(position);
         Bundle args = new Bundle();
         args.putInt(MainContentFragment.ARG_MAIN_CONTENT_NUMBER, position);
         fragment.setArguments(args);
@@ -143,70 +144,29 @@ public class MainScreenActivity extends Activity implements HaberServiceDelegate
         mDrawerList.setItemChecked(position, true);
         getActionBar().setTitle(TITLES[position]);
         mDrawerLayout.closeDrawer(myRelativeDrawerLayout);
-
-        if (position == 0) {
-            progressDialog = ProgressDialog.show(this, "Bekleyiniz", "Yükleniyor", false, false);
-            HaberService haberService = new HaberService(this);
-            haberService.getHaberList();
-        }
     }
 
     public class MainContentFragment extends Fragment {
         public static final String ARG_MAIN_CONTENT_NUMBER = "main_content_number";
+        private int position;
 
         //empty constructor required for fragment subclasses
-        public MainContentFragment(){}
+        public MainContentFragment() {
+        }
+
+        public MainContentFragment(int position) {
+            this.position = position;
+        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
             View rootView = inflater.inflate(R.layout.fragment_main_content, container, false);
             listOfMainContent = (ListView) rootView.findViewById(R.id.lvMainContent);
-            listOfMainContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-
-                    Intent detailIntent = new Intent(MainScreenActivity.this, DetailsActivity.class);
-
-                    switch (position) {
-                        case 0:
-                            Haber newHaber = (Haber) listOfMainContent.getItemAtPosition(position);
-                            detailIntent.putExtra("class", newHaber);
-                            startActivity(detailIntent);
-                            break;
-                        case 1:
-                        case 2:
-                        case 3:
-                        case 4:
-                        case 5:
-                        case 6:
-                        case 7:
-                        case 8:
-                            Toast.makeText(MainScreenActivity.this, "Implement edilmedi", Toast.LENGTH_LONG).show();
-                            break;
-                    }
-                }
-            });
-
+            listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
             setTitle(TITLES[getArguments().getInt(ARG_MAIN_CONTENT_NUMBER)]);
 
             return rootView;
         }
-    }
-
-    @Override
-    public void haberListRequestDidFinish(Map responseMap) {
-        listOfMainContent.setAdapter(new HaberListAdapter(this, (ArrayList<Haber>) responseMap.get("haberList")));
-        progressDialog.dismiss();
-    }
-
-    @Override
-    public void nextHaberListRequestDidFinish(Map responseMap) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void prevHaberListRequestDidFinish(Map responseMap) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
