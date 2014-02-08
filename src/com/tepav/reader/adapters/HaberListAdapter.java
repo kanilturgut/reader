@@ -69,7 +69,6 @@ public class HaberListAdapter extends ArrayAdapter<Haber> implements HaberServic
             @Override
             public void onClick(View view) {
                 Intent detailIntent = new Intent(context, HaberDetailsActivity.class);
-                detailIntent.putExtra("class_type", MainScreenActivity.HABER_SERVICE);
                 detailIntent.putExtra("class", (Haber) haberList.get(position));
                 context.startActivity(detailIntent);
             }

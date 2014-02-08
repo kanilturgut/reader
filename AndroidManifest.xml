@@ -21,5 +21,6 @@
         <activity
                 android:name=".activities.MainScreenActivity"/>
         <activity android:name=".activities.HaberDetailsActivity"/>
+        <activity android:name=".activities.GunlukDetailsActivity"/>
     </application>
 </manifest>

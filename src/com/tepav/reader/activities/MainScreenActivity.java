@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.tepav.reader.R;
+import com.tepav.reader.adapters.GunlukListAdapter;
 import com.tepav.reader.adapters.HaberListAdapter;
 import com.tepav.reader.adapters.NavigationDrawerAdapter;
 import com.tepav.reader.delegates.HaberServiceDelegate;
@@ -163,7 +164,36 @@ public class MainScreenActivity extends Activity{
 
             View rootView = inflater.inflate(R.layout.fragment_main_content, container, false);
             listOfMainContent = (ListView) rootView.findViewById(R.id.lvMainContent);
-            listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
+
+            switch (position) {
+                case 0:
+                    listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
+                    break;
+                case 1:
+                    listOfMainContent.setAdapter(new GunlukListAdapter(MainScreenActivity.this));
+                    break;
+                case 2:
+                    listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
+                    break;
+                case 3:
+                    listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
+                    break;
+                case 4:
+                    listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
+                    break;
+                case 5:
+                    listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
+                    break;
+                case 6:
+                    listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
+                    break;
+                case 7:
+                    listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
+                    break;
+
+            }
+
+
             setTitle(TITLES[getArguments().getInt(ARG_MAIN_CONTENT_NUMBER)]);
 
             return rootView;
