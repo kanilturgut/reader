@@ -21,16 +21,13 @@ public class Yayin implements Serializable {
     private String ycontent;
     private String ytype;
     private String ytype_id;
+    private Integer persistanceType;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
 
     /** Used for active entity operations. */
     private transient YayinDao myDao;
-
-    public void setFileList(List<File> fileList) {
-        this.fileList = fileList;
-    }
 
     private List<File> fileList;
 
@@ -41,7 +38,7 @@ public class Yayin implements Serializable {
         this.id = id;
     }
 
-    public Yayin(Long id, String yayin_id, String ytitle, String ydate, String yauthors, String ycontent, String ytype, String ytype_id) {
+    public Yayin(Long id, String yayin_id, String ytitle, String ydate, String yauthors, String ycontent, String ytype, String ytype_id, Integer persistanceType) {
         this.id = id;
         this.yayin_id = yayin_id;
         this.ytitle = ytitle;
@@ -50,6 +47,7 @@ public class Yayin implements Serializable {
         this.ycontent = ycontent;
         this.ytype = ytype;
         this.ytype_id = ytype_id;
+        this.persistanceType = persistanceType;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -120,6 +118,18 @@ public class Yayin implements Serializable {
 
     public void setYtype_id(String ytype_id) {
         this.ytype_id = ytype_id;
+    }
+
+    public Integer getPersistanceType() {
+        return persistanceType;
+    }
+
+    public void setPersistanceType(Integer persistanceType) {
+        this.persistanceType = persistanceType;
+    }
+
+    public void setFileList(List<File> fileList) {
+        this.fileList = fileList;
     }
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */

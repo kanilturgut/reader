@@ -22,6 +22,9 @@ public class ReadingListService {
     private User currentUser;
     private BaseDao baseDao;
 
+    public static int PERSISTANCE_TYPE_FAVORITES = 0;
+    public static int PERSISTANCE_TYPE_READ_LIST = 1;
+
     private ReadingListService() {
 
     }
@@ -41,19 +44,22 @@ public class ReadingListService {
         return instance;
     }
 
-    public void save(Haber haber) {
+    public void save(Haber haber , int type) {
+        haber.setPersistanceType(type);
         baseDao.getHaberDao().insert(haber);
         currentUser.getHaberList().add(haber);
         baseDao.getUserDao().update(currentUser);
     }
 
-    public void save(Gunluk gunluk) {
+    public void save(Gunluk gunluk , int type) {
+        gunluk.setPersistanceType(type);
         baseDao.getGunlukDao().insert(gunluk);
         currentUser.getGunlukList().add(gunluk);
         baseDao.getUserDao().update(currentUser);
     }
 
-    public void save(Yayin yayin) {
+    public void save(Yayin yayin , int type) {
+        yayin.setPersistanceType(type);
         baseDao.getYayinDao().insert(yayin);
         currentUser.getYayinList().add(yayin);
         baseDao.getUserDao().update(currentUser);
@@ -61,21 +67,68 @@ public class ReadingListService {
 
     public void delete(Haber haber) {
         baseDao.getHaberDao().delete(haber);
+        currentUser.getHaberList().remove(haber);
+        baseDao.getUserDao().update(currentUser);
     }
 
     public void delete(Gunluk gunluk) {
         baseDao.getGunlukDao().delete(gunluk);
+        currentUser.getGunlukList().remove(gunluk);
+        baseDao.getUserDao().update(currentUser);
     }
 
     public void delete(Yayin yayin) {
         baseDao.getYayinDao().delete(yayin);
+        currentUser.getYayinList().remove(yayin);
+        baseDao.getUserDao().update(currentUser);
     }
 
     public List getReadingList() {
         List readingList = new ArrayList();
-        readingList.addAll(currentUser.getHaberList());
-        readingList.addAll(currentUser.getYayinList());
-        readingList.addAll(currentUser.getGunlukList());
+
+        List<Haber>  haberList  = currentUser.getHaberList();
+        List<Yayin>  yayinList  = currentUser.getYayinList();
+        List<Gunluk> gunlukList = currentUser.getGunlukList();
+
+        for (Haber haber : haberList) {
+            if (haber.getPersistanceType() == PERSISTANCE_TYPE_READ_LIST)
+                readingList.add(haber);
+        }
+
+        for (Yayin yayin : yayinList) {
+            if (yayin.getPersistanceType() == PERSISTANCE_TYPE_READ_LIST)
+                readingList.add(yayin);
+        }
+
+        for (Gunluk gunluk : gunlukList) {
+            if (gunluk.getPersistanceType() == PERSISTANCE_TYPE_READ_LIST)
+                readingList.add(gunluk);
+        }
+
+        return readingList;
+    }
+
+    public List getFavoritesList() {
+        List readingList = new ArrayList();
+
+        List<Haber>  haberList  = currentUser.getHaberList();
+        List<Yayin>  yayinList  = currentUser.getYayinList();
+        List<Gunluk> gunlukList = currentUser.getGunlukList();
+
+        for (Haber haber : haberList) {
+            if (haber.getPersistanceType() == PERSISTANCE_TYPE_FAVORITES)
+                readingList.add(haber);
+        }
+
+        for (Yayin yayin : yayinList) {
+            if (yayin.getPersistanceType() == PERSISTANCE_TYPE_FAVORITES)
+                readingList.add(yayin);
+        }
+
+        for (Gunluk gunluk : gunlukList) {
+            if (gunluk.getPersistanceType() == PERSISTANCE_TYPE_FAVORITES)
+                readingList.add(gunluk);
+        }
 
         return readingList;
     }

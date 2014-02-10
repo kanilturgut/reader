@@ -34,7 +34,8 @@ public class GunlukDao extends AbstractDao<Gunluk, Long> {
         public final static Property Pfullname = new Property(5, String.class, "pfullname", false, "PFULLNAME");
         public final static Property Ptype = new Property(6, String.class, "ptype", false, "PTYPE");
         public final static Property Ptitle = new Property(7, String.class, "ptitle", false, "PTITLE");
-        public final static Property Pimage = new Property(8, String.class, "pimage", false, "PIMAGE");
+        public final static Property PersistanceType = new Property(8, Integer.class, "persistanceType", false, "PERSISTANCE_TYPE");
+        public final static Property Pimage = new Property(9, String.class, "pimage", false, "PIMAGE");
     };
 
     private Query<Gunluk> user_GunlukListQuery;
@@ -59,7 +60,8 @@ public class GunlukDao extends AbstractDao<Gunluk, Long> {
                 "'PFULLNAME' TEXT," + // 5: pfullname
                 "'PTYPE' TEXT," + // 6: ptype
                 "'PTITLE' TEXT," + // 7: ptitle
-                "'PIMAGE' TEXT);"); // 8: pimage
+                "'PERSISTANCE_TYPE' INTEGER," + // 8: persistanceType
+                "'PIMAGE' TEXT);"); // 9: pimage
     }
 
     /** Drops the underlying database table. */
@@ -113,9 +115,14 @@ public class GunlukDao extends AbstractDao<Gunluk, Long> {
             stmt.bindString(8, ptitle);
         }
  
+        Integer persistanceType = entity.getPersistanceType();
+        if (persistanceType != null) {
+            stmt.bindLong(9, persistanceType);
+        }
+ 
         String pimage = entity.getPimage();
         if (pimage != null) {
-            stmt.bindString(9, pimage);
+            stmt.bindString(10, pimage);
         }
     }
 
@@ -137,7 +144,8 @@ public class GunlukDao extends AbstractDao<Gunluk, Long> {
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // pfullname
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // ptype
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // ptitle
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // pimage
+            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // persistanceType
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9) // pimage
         );
         return entity;
     }
@@ -153,7 +161,8 @@ public class GunlukDao extends AbstractDao<Gunluk, Long> {
         entity.setPfullname(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setPtype(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setPtitle(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setPimage(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setPersistanceType(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
+        entity.setPimage(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
      }
     
     /** @inheritdoc */

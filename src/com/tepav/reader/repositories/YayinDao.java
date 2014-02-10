@@ -34,6 +34,7 @@ public class YayinDao extends AbstractDao<Yayin, Long> {
         public final static Property Ycontent = new Property(5, String.class, "ycontent", false, "YCONTENT");
         public final static Property Ytype = new Property(6, String.class, "ytype", false, "YTYPE");
         public final static Property Ytype_id = new Property(7, String.class, "ytype_id", false, "YTYPE_ID");
+        public final static Property PersistanceType = new Property(8, Integer.class, "persistanceType", false, "PERSISTANCE_TYPE");
     };
 
     private DaoSession daoSession;
@@ -60,7 +61,8 @@ public class YayinDao extends AbstractDao<Yayin, Long> {
                 "'YAUTHORS' TEXT," + // 4: yauthors
                 "'YCONTENT' TEXT," + // 5: ycontent
                 "'YTYPE' TEXT," + // 6: ytype
-                "'YTYPE_ID' TEXT);"); // 7: ytype_id
+                "'YTYPE_ID' TEXT," + // 7: ytype_id
+                "'PERSISTANCE_TYPE' INTEGER);"); // 8: persistanceType
     }
 
     /** Drops the underlying database table. */
@@ -113,6 +115,11 @@ public class YayinDao extends AbstractDao<Yayin, Long> {
         if (ytype_id != null) {
             stmt.bindString(8, ytype_id);
         }
+ 
+        Integer persistanceType = entity.getPersistanceType();
+        if (persistanceType != null) {
+            stmt.bindLong(9, persistanceType);
+        }
     }
 
     @Override
@@ -138,7 +145,8 @@ public class YayinDao extends AbstractDao<Yayin, Long> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // yauthors
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // ycontent
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // ytype
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // ytype_id
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // ytype_id
+            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8) // persistanceType
         );
         return entity;
     }
@@ -154,6 +162,7 @@ public class YayinDao extends AbstractDao<Yayin, Long> {
         entity.setYcontent(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setYtype(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setYtype_id(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setPersistanceType(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
      }
     
     /** @inheritdoc */

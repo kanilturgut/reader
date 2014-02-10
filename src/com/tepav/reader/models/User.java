@@ -20,9 +20,9 @@ public class User {
     /** Used for active entity operations. */
     private transient UserDao myDao;
 
-    private List<Haber>  haberList;
+    private List<Haber> haberList;
     private List<Gunluk> gunlukList;
-    private List<Yayin>  yayinList;
+    private List<Yayin> yayinList;
 
     public User() {
     }

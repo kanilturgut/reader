@@ -33,6 +33,7 @@ public class HaberDao extends AbstractDao<Haber, Long> {
         public final static Property Hdate = new Property(4, String.class, "hdate", false, "HDATE");
         public final static Property Dname = new Property(5, String.class, "dname", false, "DNAME");
         public final static Property Himage = new Property(6, String.class, "himage", false, "HIMAGE");
+        public final static Property PersistanceType = new Property(7, Integer.class, "persistanceType", false, "PERSISTANCE_TYPE");
     };
 
     private DaoSession daoSession;
@@ -58,7 +59,8 @@ public class HaberDao extends AbstractDao<Haber, Long> {
                 "'HCONTENT' TEXT," + // 3: hcontent
                 "'HDATE' TEXT," + // 4: hdate
                 "'DNAME' TEXT," + // 5: dname
-                "'HIMAGE' TEXT);"); // 6: himage
+                "'HIMAGE' TEXT," + // 6: himage
+                "'PERSISTANCE_TYPE' INTEGER);"); // 7: persistanceType
     }
 
     /** Drops the underlying database table. */
@@ -106,6 +108,11 @@ public class HaberDao extends AbstractDao<Haber, Long> {
         if (himage != null) {
             stmt.bindString(7, himage);
         }
+ 
+        Integer persistanceType = entity.getPersistanceType();
+        if (persistanceType != null) {
+            stmt.bindLong(8, persistanceType);
+        }
     }
 
     @Override
@@ -130,7 +137,8 @@ public class HaberDao extends AbstractDao<Haber, Long> {
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // hcontent
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // hdate
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // dname
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // himage
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // himage
+            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7) // persistanceType
         );
         return entity;
     }
@@ -145,6 +153,7 @@ public class HaberDao extends AbstractDao<Haber, Long> {
         entity.setHdate(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setDname(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setHimage(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setPersistanceType(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
      }
     
     /** @inheritdoc */

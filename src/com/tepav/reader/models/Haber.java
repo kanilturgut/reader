@@ -20,16 +20,13 @@ public class Haber implements Serializable{
     private String hdate;
     private String dname;
     private String himage;
+    private Integer persistanceType;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
 
     /** Used for active entity operations. */
     private transient HaberDao myDao;
-
-    public void setFileList(List<File> fileList) {
-        this.fileList = fileList;
-    }
 
     private List<File> fileList;
 
@@ -40,7 +37,7 @@ public class Haber implements Serializable{
         this.id = id;
     }
 
-    public Haber(Long id, String haber_id, String htitle, String hcontent, String hdate, String dname, String himage) {
+    public Haber(Long id, String haber_id, String htitle, String hcontent, String hdate, String dname, String himage, Integer persistanceType) {
         this.id = id;
         this.haber_id = haber_id;
         this.htitle = htitle;
@@ -48,6 +45,7 @@ public class Haber implements Serializable{
         this.hdate = hdate;
         this.dname = dname;
         this.himage = himage;
+        this.persistanceType = persistanceType;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -112,6 +110,18 @@ public class Haber implements Serializable{
         this.himage = himage;
     }
 
+    public Integer getPersistanceType() {
+        return persistanceType;
+    }
+
+    public void setPersistanceType(Integer persistanceType) {
+        this.persistanceType = persistanceType;
+    }
+
+    public void setFileList(List<File> fileList) {
+        this.fileList = fileList;
+    }
+
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
     public List<File> getFileList() {
         if (fileList == null) {
@@ -157,6 +167,5 @@ public class Haber implements Serializable{
         }    
         myDao.refresh(this);
     }
-
 
 }

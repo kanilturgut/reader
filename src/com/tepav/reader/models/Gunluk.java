@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Entity mapped to table GUNLUK.
  */
-public class Gunluk implements Serializable{
+public class Gunluk implements Serializable {
 
     private Long id;
     private String gunluk_id;
@@ -17,6 +17,7 @@ public class Gunluk implements Serializable{
     private String pfullname;
     private String ptype;
     private String ptitle;
+    private Integer persistanceType;
     private String pimage;
 
     public Gunluk() {
@@ -26,7 +27,7 @@ public class Gunluk implements Serializable{
         this.id = id;
     }
 
-    public Gunluk(Long id, String gunluk_id, String btitle, String bcontent, String bdate, String pfullname, String ptype, String ptitle, String pimage) {
+    public Gunluk(Long id, String gunluk_id, String btitle, String bcontent, String bdate, String pfullname, String ptype, String ptitle, Integer persistanceType, String pimage) {
         this.id = id;
         this.gunluk_id = gunluk_id;
         this.btitle = btitle;
@@ -35,6 +36,7 @@ public class Gunluk implements Serializable{
         this.pfullname = pfullname;
         this.ptype = ptype;
         this.ptitle = ptitle;
+        this.persistanceType = persistanceType;
         this.pimage = pimage;
     }
 
@@ -100,6 +102,14 @@ public class Gunluk implements Serializable{
 
     public void setPtitle(String ptitle) {
         this.ptitle = ptitle;
+    }
+
+    public Integer getPersistanceType() {
+        return persistanceType;
+    }
+
+    public void setPersistanceType(Integer persistanceType) {
+        this.persistanceType = persistanceType;
     }
 
     public String getPimage() {
