@@ -66,7 +66,7 @@ public class YayinDetailsActivity extends Activity {
     }
 
     private boolean isFilesExist() {
-        return (yayin.getFiles().size() > 0);
+        return (yayin.getFileList().size() > 0);
     }
 
     private class Download_PDF_Task extends AsyncTask<String, Void, java.io.File> {
@@ -91,7 +91,7 @@ public class YayinDetailsActivity extends Activity {
             java.io.File file = null;
             java.io.File outputFile = null;
             try {
-                URL url = new URL(yayin.getFiles().get(0).getUrl());
+                URL url = new URL(yayin.getFileList().get(0).getUrl());
                 HttpURLConnection c = (HttpURLConnection) url.openConnection();
                 c.setRequestMethod("GET");
                 c.setDoOutput(true);
