@@ -16,10 +16,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.tepav.reader.R;
-import com.tepav.reader.adapters.GunlukListAdapter;
-import com.tepav.reader.adapters.HaberListAdapter;
-import com.tepav.reader.adapters.NavigationDrawerAdapter;
-import com.tepav.reader.adapters.YayinListAdapter;
+import com.tepav.reader.adapters.*;
 import com.tepav.reader.delegates.HaberServiceDelegate;
 import com.tepav.reader.models.Haber;
 import com.tepav.reader.services.BaseRequestService;
@@ -173,13 +170,13 @@ public class MainScreenActivity extends Activity{
                     listOfMainContent.setAdapter(new YayinListAdapter(MainScreenActivity.this));
                     break;
                 case 3:
-                    listOfMainContent.setAdapter(new YayinListAdapter(MainScreenActivity.this));
+                    listOfMainContent.setAdapter(new RaporListAdapter(MainScreenActivity.this));
                     break;
                 case 4:
-                    listOfMainContent.setAdapter(new YayinListAdapter(MainScreenActivity.this));
+                    listOfMainContent.setAdapter(new NotlarListAdapter(MainScreenActivity.this));
                     break;
                 case 5:
-                    listOfMainContent.setAdapter(new YayinListAdapter(MainScreenActivity.this));
+                    listOfMainContent.setAdapter(new BasiliYayinListAdapter(MainScreenActivity.this));
                     break;
                 case 6:
                     listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
