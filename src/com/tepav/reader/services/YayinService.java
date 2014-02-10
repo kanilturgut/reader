@@ -112,7 +112,7 @@ public class YayinService {
 
                     if (key.equals("files")) {
                         List<File> fileList = BaseRequestService.parseFileListJson(yayinJson.getJSONArray(key));
-                        yayin.setFiles(fileList);
+                        yayin.setFileList(fileList);
                         continue;
                     }
 

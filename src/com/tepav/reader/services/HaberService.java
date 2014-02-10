@@ -104,7 +104,7 @@ public class HaberService {
 
                     if (key.equals("files")) {
                         List<File> fileList = BaseRequestService.parseFileListJson(haberJson.getJSONArray(key));
-                        haber.setFiles(fileList);
+                        haber.setFileList(fileList);
                         continue;
                     }
 
