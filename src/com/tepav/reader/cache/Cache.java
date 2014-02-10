@@ -77,6 +77,7 @@ public class Cache {
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
+                cancel(true);
             }
             return bmp;
         }
@@ -92,6 +93,12 @@ public class Cache {
                 InputStream is = context.getResources().openRawResource(R.drawable.ic_action_picture);
                 iv.setImageBitmap(BitmapFactory.decodeStream(is));
             }
+        }
+
+        @Override
+        protected void onCancelled() {
+            InputStream is = context.getResources().openRawResource(R.drawable.ic_action_picture);
+            iv.setImageBitmap(BitmapFactory.decodeStream(is));
         }
     }
 }
