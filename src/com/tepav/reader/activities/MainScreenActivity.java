@@ -44,10 +44,6 @@ public class MainScreenActivity extends Activity{
     private ListView mDrawerList = null;
     private ListView listOfMainContent = null;
 
-    public static final int HABER_SERVICE = 0;
-    public static final int GUNLUK_SERVICE = 1;
-    public static final int YAYIN_SERVICE = 2;
-
     String[] TITLES = {"Haberler", "Günlük", "Araştırma ve Yayınlar", "Raporlar", "Notlar", "Basılı Yayınlar", "Okuma Listem", "Favoriler", "Giriş Yap"};
 
     public void onCreate(Bundle savedInstanceState) {
@@ -177,18 +173,21 @@ public class MainScreenActivity extends Activity{
                     listOfMainContent.setAdapter(new YayinListAdapter(MainScreenActivity.this));
                     break;
                 case 3:
-                    listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
+                    listOfMainContent.setAdapter(new YayinListAdapter(MainScreenActivity.this));
                     break;
                 case 4:
-                    listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
+                    listOfMainContent.setAdapter(new YayinListAdapter(MainScreenActivity.this));
                     break;
                 case 5:
-                    listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
+                    listOfMainContent.setAdapter(new YayinListAdapter(MainScreenActivity.this));
                     break;
                 case 6:
                     listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
                     break;
                 case 7:
+                    listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
+                    break;
+                case 8:
                     listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
                     break;
 

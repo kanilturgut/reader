@@ -44,13 +44,36 @@
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-            android:id="@+id/llHaberFooter"
+    <RelativeLayout
+            android:id="@+id/rlHaberFooter"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="50dp"
             android:background="#352354"
-            android:orientation="horizontal"
+            android:padding="1dp"
             android:layout_alignParentBottom="true">
-    </LinearLayout>
+
+        <Button
+                android:layout_width="38dp"
+                android:layout_height="42dp"
+                android:layout_toLeftOf="@+id/bFavList"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/readlist"/>
+
+
+        <Button
+                android:id="@+id/bFavList"
+                android:layout_width="46dp"
+                android:layout_height="42dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/favlist"/>
+
+        <Button
+                android:layout_toRightOf="@+id/bFavList"
+                android:layout_width="55dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="45dp"
+                android:background="@drawable/share"/>
+    </RelativeLayout>
+
 
 </RelativeLayout>
