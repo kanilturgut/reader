@@ -22,7 +22,7 @@ import com.tepav.reader.services.ReadingListService;
  */
 public class GunlukDetailsActivity extends Activity implements View.OnClickListener {
 
-    Button buttonAddToFavList, buttonAddToReadList, buttonShare;
+    Button buttonAddToFavList, buttonRemoveFromFavList, buttonAddToReadList,buttonRemoveFromReadList, buttonShare;
     ReadingListService readingListService = null;
     private Gunluk gunluk;
 
@@ -31,6 +31,7 @@ public class GunlukDetailsActivity extends Activity implements View.OnClickListe
         setContentView(R.layout.activity_gunluk_details);
 
         gunluk = (Gunluk) getIntent().getSerializableExtra("class");
+        readingListService = ReadingListService.getInstance(this);
 
         getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#352354")));
         getActionBar().setTitle(gunluk.getBtitle());
@@ -43,18 +44,27 @@ public class GunlukDetailsActivity extends Activity implements View.OnClickListe
         tvGunlukDetailRelatedInfo.setText(gunluk.getBdate() + " - " + gunluk.getPfullname());
 
         WebView mWebView = (WebView) findViewById(R.id.webview);
-
         mWebView.loadData(gunluk.getBcontent(), "text/html; charset=UTF-8", null);
-        buttonAddToFavList = (Button) findViewById(R.id.bFavList);
+
+        initializeButtons();
+    }
+
+    private void initializeButtons() {
+
+        buttonAddToFavList = (Button) findViewById(R.id.buttonAddFavList);
         buttonAddToFavList.setOnClickListener(this);
 
-        buttonAddToReadList = (Button) findViewById(R.id.bReadList);
+        buttonRemoveFromFavList = (Button) findViewById(R.id.buttonRemoveFavList);
+        buttonRemoveFromFavList.setOnClickListener(this);
+
+        buttonAddToReadList = (Button) findViewById(R.id.buttonAddReadList);
         buttonAddToReadList.setOnClickListener(this);
+
+        buttonRemoveFromReadList = (Button) findViewById(R.id.buttonRemoveReadList);
+        buttonRemoveFromReadList.setOnClickListener(this);
 
         buttonShare = (Button) findViewById(R.id.bShare);
         buttonShare.setOnClickListener(this);
-
-        readingListService = ReadingListService.getInstance(this);
     }
 
     @Override
@@ -74,15 +84,30 @@ public class GunlukDetailsActivity extends Activity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.bFavList:
+            case R.id.buttonAddFavList:
                 readingListService.save(gunluk, ReadingListService.PERSISTANCE_TYPE_FAVORITES);
+                disableAndEnableButtons(buttonAddToFavList, buttonRemoveFromFavList);
                 break;
-            case  R.id.bReadList:
+            case R.id.buttonRemoveFavList:
+                readingListService.delete(gunluk, ReadingListService.PERSISTANCE_TYPE_FAVORITES);
+                disableAndEnableButtons(buttonRemoveFromFavList, buttonAddToFavList);
+                break;
+            case  R.id.buttonAddReadList:
                 readingListService.save(gunluk, ReadingListService.PERSISTANCE_TYPE_READ_LIST);
+                disableAndEnableButtons(buttonAddToReadList, buttonRemoveFromReadList);
+                break;
+            case R.id.buttonRemoveReadList:
+                readingListService.delete(gunluk, ReadingListService.PERSISTANCE_TYPE_READ_LIST);
+                disableAndEnableButtons(buttonRemoveFromReadList, buttonAddToReadList);
                 break;
             case R.id.bShare:
                 Toast.makeText(this, "Social Share", Toast.LENGTH_LONG).show();
                 break;
         }
+    }
+
+    private void disableAndEnableButtons(Button disableThisButton, Button enableThisButton) {
+        disableThisButton.setVisibility(Button.GONE);
+        enableThisButton.setVisibility(Button.VISIBLE);
     }
 }
