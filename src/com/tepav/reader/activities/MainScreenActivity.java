@@ -1,9 +1,7 @@
 package com.tepav.reader.activities;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.ProgressDialog;
+import android.app.*;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -33,7 +31,7 @@ import java.util.Map;
  * Date: 02.02.2014
  * Time: 23:03
  */
-public class MainScreenActivity extends Activity{
+public class MainScreenActivity extends Activity {
 
     private DrawerLayout mDrawerLayout = null;
     private ActionBarDrawerToggle mDrawerToggle = null;
@@ -191,10 +189,28 @@ public class MainScreenActivity extends Activity{
 
             }
 
-
             setTitle(TITLES[getArguments().getInt(ARG_MAIN_CONTENT_NUMBER)]);
-
             return rootView;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to exit?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        System.exit(0);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+
     }
 }
