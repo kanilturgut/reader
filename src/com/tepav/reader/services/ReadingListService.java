@@ -23,9 +23,9 @@ public class ReadingListService {
     private User currentUser;
     private BaseDao baseDao;
 
-    public static int PERSISTANCE_TYPE_FAVORITES = 10;
-    public static int PERSISTANCE_TYPE_READ_LIST = 11;
-    public static int PERSISTANCE_TYPE_BOTH      = 12;
+    public static  int PERSISTANCE_TYPE_FAVORITES = 10;
+    public static  int PERSISTANCE_TYPE_READ_LIST = 11;
+    private static int PERSISTANCE_TYPE_BOTH      = 12;
 
     private ReadingListService() {
 
@@ -101,22 +101,61 @@ public class ReadingListService {
         baseDao.getUserDao().update(currentUser);
     }
 
-    public void delete(Haber haber) {
-        baseDao.getHaberDao().delete(haber);
-        currentUser.getHaberList().remove(haber);
+    public void delete(Haber haber , int type) {
+
+        if (haber.getPersistanceType() == PERSISTANCE_TYPE_BOTH) {
+            if (type == PERSISTANCE_TYPE_FAVORITES)
+                haber.setPersistanceType(PERSISTANCE_TYPE_READ_LIST);
+            else
+                haber.setPersistanceType(PERSISTANCE_TYPE_FAVORITES);
+
+            baseDao.getHaberDao().update(haber);
+        }
+        else {
+            baseDao.getHaberDao().delete(haber);
+            currentUser.getHaberList().remove(haber);
+        }
+
         baseDao.getUserDao().update(currentUser);
+
     }
 
-    public void delete(Gunluk gunluk) {
-        baseDao.getGunlukDao().delete(gunluk);
-        currentUser.getGunlukList().remove(gunluk);
+    public void delete(Gunluk gunluk , int type) {
+
+        if (gunluk.getPersistanceType() == PERSISTANCE_TYPE_BOTH) {
+            if (type == PERSISTANCE_TYPE_FAVORITES)
+                gunluk.setPersistanceType(PERSISTANCE_TYPE_READ_LIST);
+            else
+                gunluk.setPersistanceType(PERSISTANCE_TYPE_FAVORITES);
+
+            baseDao.getGunlukDao().update(gunluk);
+        }
+        else {
+            baseDao.getGunlukDao().delete(gunluk);
+            currentUser.getGunlukList().remove(gunluk);
+        }
+
         baseDao.getUserDao().update(currentUser);
+
     }
 
-    public void delete(Yayin yayin) {
-        baseDao.getYayinDao().delete(yayin);
-        currentUser.getYayinList().remove(yayin);
+    public void delete(Yayin yayin , int type) {
+
+        if (yayin.getPersistanceType() == PERSISTANCE_TYPE_BOTH) {
+            if (type == PERSISTANCE_TYPE_FAVORITES)
+                yayin.setPersistanceType(PERSISTANCE_TYPE_READ_LIST);
+            else
+                yayin.setPersistanceType(PERSISTANCE_TYPE_FAVORITES);
+
+            baseDao.getYayinDao().update(yayin);
+        }
+        else {
+            baseDao.getYayinDao().delete(yayin);
+            currentUser.getYayinList().remove(yayin);
+        }
+
         baseDao.getUserDao().update(currentUser);
+
     }
 
     public List getReadingList() {
