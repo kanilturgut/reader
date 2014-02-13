@@ -23,8 +23,8 @@ public class ReadingListService {
     private User currentUser;
     private BaseDao baseDao;
 
-    public static  int PERSISTANCE_TYPE_FAVORITES = 10;
-    public static  int PERSISTANCE_TYPE_READ_LIST = 11;
+    public  static int PERSISTANCE_TYPE_FAVORITES = 10;
+    public  static int PERSISTANCE_TYPE_READ_LIST = 11;
     private static int PERSISTANCE_TYPE_BOTH      = 12;
 
     private ReadingListService() {
@@ -98,6 +98,21 @@ public class ReadingListService {
         }
 
         currentUser.getYayinList().add(yayin);
+        baseDao.getUserDao().update(currentUser);
+    }
+
+    public void update(Haber haber) {
+        baseDao.getHaberDao().update(haber);
+        baseDao.getUserDao().update(currentUser);
+    }
+
+    public void update(Gunluk gunluk) {
+        baseDao.getGunlukDao().update(gunluk);
+        baseDao.getUserDao().update(currentUser);
+    }
+
+    public void update(Yayin yayin) {
+        baseDao.getYayinDao().update(yayin);
         baseDao.getUserDao().update(currentUser);
     }
 
