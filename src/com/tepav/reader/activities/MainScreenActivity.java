@@ -21,6 +21,7 @@ import com.tepav.reader.delegates.HaberServiceDelegate;
 import com.tepav.reader.models.Haber;
 import com.tepav.reader.services.BaseRequestService;
 import com.tepav.reader.services.HaberService;
+import com.tepav.reader.services.ReadingListService;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -179,10 +180,10 @@ public class MainScreenActivity extends Activity{
                     listOfMainContent.setAdapter(new BasiliYayinListAdapter(MainScreenActivity.this));
                     break;
                 case 6:
-                    listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
+                    listOfMainContent.setAdapter(new ReadingListAdapter(MainScreenActivity.this, ReadingListService.PERSISTANCE_TYPE_READ_LIST));
                     break;
                 case 7:
-                    listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
+                    listOfMainContent.setAdapter(new ReadingListAdapter(MainScreenActivity.this, ReadingListService.PERSISTANCE_TYPE_FAVORITES));
                     break;
                 case 8:
                     listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));

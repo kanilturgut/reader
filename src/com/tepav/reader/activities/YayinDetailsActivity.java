@@ -12,9 +12,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.tepav.reader.R;
 import com.tepav.reader.models.Yayin;
+import com.tepav.reader.services.ReadingListService;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -26,9 +30,13 @@ import java.net.URL;
  * Date: 08.02.2014
  * Time: 21:44
  */
-public class YayinDetailsActivity extends Activity {
+public class YayinDetailsActivity extends Activity implements View.OnClickListener {
 
+    Button buttonAddToFavList, buttonAddToReadList, buttonShare;
+    ReadingListService readingListService = null;
     Yayin yayin = null;
+
+    TextView tvProgressOfPdfDownload = null;
 
     private static String fileName = "tepav.pdf";
 
@@ -46,9 +54,20 @@ public class YayinDetailsActivity extends Activity {
         if (isFilesExist()) {
             new Download_PDF_Task().execute();
         } else {
-            TextView textView = (TextView) findViewById(R.id.tvProgressOfPdfDownload);
-            textView.setText("No PDF file found q");
+            tvProgressOfPdfDownload = (TextView) findViewById(R.id.tvProgressOfPdfDownload);
+            tvProgressOfPdfDownload.setText("No PDF file found");
         }
+
+        buttonAddToFavList = (Button) findViewById(R.id.bFavList);
+        buttonAddToFavList.setOnClickListener(this);
+
+        buttonAddToReadList = (Button) findViewById(R.id.bReadList);
+        buttonAddToReadList.setOnClickListener(this);
+
+        buttonShare = (Button) findViewById(R.id.bShare);
+        buttonShare.setOnClickListener(this);
+
+        readingListService = ReadingListService.getInstance(this);
 
     }
 
@@ -69,21 +88,29 @@ public class YayinDetailsActivity extends Activity {
         return (yayin.getFileList().size() > 0);
     }
 
-    private class Download_PDF_Task extends AsyncTask<String, Void, java.io.File> {
-
-        ProgressDialog progressDialog = null;
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(YayinDetailsActivity.this, "Bekleyiniz", "Yükleniyor", false, false);
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.bFavList:
+                readingListService.save(yayin, ReadingListService.PERSISTANCE_TYPE_FAVORITES);
+                break;
+            case  R.id.bReadList:
+                readingListService.save(yayin, ReadingListService.PERSISTANCE_TYPE_READ_LIST);
+                break;
+            case R.id.bShare:
+                Toast.makeText(this, "Social Share", Toast.LENGTH_LONG).show();
+                break;
         }
+    }
+
+    private class Download_PDF_Task extends AsyncTask<String, Integer, java.io.File> {
+
 
         @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
+        protected void onProgressUpdate(Integer... values) {
 
             TextView tvProgress = (TextView) findViewById(R.id.tvProgressOfPdfDownload);
-            tvProgress.setText("Downloading PDF ");
+            tvProgress.setText("PDF Yükleniyor %" + values[0]);
         }
 
         @Override
@@ -97,6 +124,8 @@ public class YayinDetailsActivity extends Activity {
                 c.setDoOutput(true);
                 c.connect();
 
+                int fileLength = c.getContentLength();
+
                 String PATH = Environment.getExternalStorageDirectory()
                         + "/tepavReader/";
                 Log.d("Download_PDF_Task", "PATH: " + PATH);
@@ -109,7 +138,12 @@ public class YayinDetailsActivity extends Activity {
                 InputStream is = c.getInputStream();
                 byte[] buffer = new byte[1024];
                 int len1 = 0;
+
+                long total = 0;
+
                 while ((len1 = is.read(buffer)) != -1) {
+                    total += len1;
+                    publishProgress((int) (total * 100 / fileLength));
                     fos.write(buffer, 0, len1);
                 }
                 fos.flush();
@@ -133,8 +167,6 @@ public class YayinDetailsActivity extends Activity {
             } catch (ActivityNotFoundException e) {
 
             }
-            progressDialog.dismiss();
-
         }
     }
 
