@@ -1,6 +1,7 @@
 package com.tepav.reader.services;
 
 import android.content.Context;
+import android.util.Log;
 import com.tepav.reader.models.Gunluk;
 import com.tepav.reader.models.Haber;
 import com.tepav.reader.models.User;
@@ -22,8 +23,9 @@ public class ReadingListService {
     private User currentUser;
     private BaseDao baseDao;
 
-    public static int PERSISTANCE_TYPE_FAVORITES = 0;
-    public static int PERSISTANCE_TYPE_READ_LIST = 1;
+    public static int PERSISTANCE_TYPE_FAVORITES = 10;
+    public static int PERSISTANCE_TYPE_READ_LIST = 11;
+    public static int PERSISTANCE_TYPE_BOTH      = 12;
 
     private ReadingListService() {
 
@@ -45,22 +47,56 @@ public class ReadingListService {
     }
 
     public void save(Haber haber , int type) {
-        haber.setPersistanceType(type);
-        baseDao.getHaberDao().insert(haber);
+
+
+        if (haber.getPersistanceType() == null) {
+            haber.setPersistanceType(type);
+            baseDao.getHaberDao().insert(haber);
+        }
+        else {
+            if ( (haber.getPersistanceType() == PERSISTANCE_TYPE_FAVORITES && type == PERSISTANCE_TYPE_READ_LIST) ||
+                 (haber.getPersistanceType() == PERSISTANCE_TYPE_READ_LIST && type == PERSISTANCE_TYPE_FAVORITES) ) {
+                haber.setPersistanceType(PERSISTANCE_TYPE_BOTH);
+                baseDao.getHaberDao().update(haber);
+            }
+        }
+
         currentUser.getHaberList().add(haber);
         baseDao.getUserDao().update(currentUser);
     }
 
     public void save(Gunluk gunluk , int type) {
-        gunluk.setPersistanceType(type);
-        baseDao.getGunlukDao().insert(gunluk);
+
+        if (gunluk.getPersistanceType() == null) {
+            gunluk.setPersistanceType(type);
+            baseDao.getGunlukDao().insert(gunluk);
+        }
+        else {
+            if ( (gunluk.getPersistanceType() == PERSISTANCE_TYPE_FAVORITES && type == PERSISTANCE_TYPE_READ_LIST) ||
+                 (gunluk.getPersistanceType() == PERSISTANCE_TYPE_READ_LIST && type == PERSISTANCE_TYPE_FAVORITES) ) {
+                gunluk.setPersistanceType(PERSISTANCE_TYPE_BOTH);
+                baseDao.getGunlukDao().update(gunluk);
+            }
+        }
+
         currentUser.getGunlukList().add(gunluk);
         baseDao.getUserDao().update(currentUser);
     }
 
     public void save(Yayin yayin , int type) {
-        yayin.setPersistanceType(type);
-        baseDao.getYayinDao().insert(yayin);
+
+        if (yayin.getPersistanceType() == null) {
+            yayin.setPersistanceType(type);
+            baseDao.getYayinDao().insert(yayin);
+        }
+        else {
+            if ( (yayin.getPersistanceType() == PERSISTANCE_TYPE_FAVORITES && type == PERSISTANCE_TYPE_READ_LIST) ||
+                 (yayin.getPersistanceType() == PERSISTANCE_TYPE_READ_LIST && type == PERSISTANCE_TYPE_FAVORITES) ) {
+                yayin.setPersistanceType(PERSISTANCE_TYPE_BOTH);
+                baseDao.getYayinDao().update(yayin);
+            }
+        }
+
         currentUser.getYayinList().add(yayin);
         baseDao.getUserDao().update(currentUser);
     }
