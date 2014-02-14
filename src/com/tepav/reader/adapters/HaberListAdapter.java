@@ -38,7 +38,7 @@ public class HaberListAdapter extends ArrayAdapter<Haber> implements HaberServic
         super(context, R.layout.custom_row_haber);
         this.context = context;
 
-        progressDialog = ProgressDialog.show(context, "Bekleyiniz", "Yükleniyor", false, false);
+        progressDialog = ProgressDialog.show(context, context.getResources().getString(R.string.pd_wait), context.getResources().getString(R.string.pd_loading), false, false);
 
         haberService = new HaberService(this);
         haberService.getHaberList();

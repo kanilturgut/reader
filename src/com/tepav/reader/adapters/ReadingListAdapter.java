@@ -1,6 +1,5 @@
 package com.tepav.reader.adapters;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;

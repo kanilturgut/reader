@@ -78,7 +78,7 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
         if (isFilesExist()) {
             new Download_PDF_Task().execute();
         } else {
-            buttonOpenPDF.setText("No PDF file found");
+            buttonOpenPDF.setText(getResources().getString(R.string.no_doc));
         }
 
         TextView tvHaberDetailTitle = (TextView) findViewById(R.id.tvYayinDetailTitle);
@@ -159,7 +159,7 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-            buttonOpenPDF.setText("PDF Yükleniyor %" + values[0]);
+            buttonOpenPDF.setText(getResources().getString(R.string.doc_downloading) + values[0]);
         }
 
         @Override
@@ -196,6 +196,7 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
                 is.close();
             } catch (IOException e) {
                 Log.e("Download_PDF_Task", "Error: " + e);
+                cancel(true);
             }
             return outputFile;
         }
@@ -203,20 +204,12 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
         @Override
         protected void onPostExecute(java.io.File file) {
             downloadedPDF = file;
-            buttonOpenPDF.setText("Dokumani açmak için tiklayiniz.");
+            buttonOpenPDF.setText(getResources().getString(R.string.open_doc));
         }
-    }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        try {
-            File file = new File(Environment.getExternalStorageDirectory() + "/tepavReader/" + fileName);
-            if (file.exists())
-                file.delete();
-        } catch (Exception e) {
-            Log.e("YayinDetailsActivity", "FileNotFound", e);
+        @Override
+        protected void onCancelled() {
+            buttonOpenPDF.setText(getResources().getString(R.string.not_found_doc));
         }
     }
 

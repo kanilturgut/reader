@@ -36,7 +36,7 @@ public class NotlarListAdapter extends ArrayAdapter<Yayin> implements YayinServi
 
         this.context = context;
 
-        progressDialog = ProgressDialog.show(context, "Bekleyiniz", "Yükleniyor", false, false);
+        progressDialog = ProgressDialog.show(context, context.getResources().getString(R.string.pd_wait), context.getResources().getString(R.string.pd_loading), false, false);
 
         yayinService = new YayinService(this);
         yayinService.getYayinList();

@@ -5,4 +5,16 @@
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="exit_question">Uygulama kapanacaktır. Devam etmek istiyor musunuz?</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
+
+    <string name="doc_downloading">Dosya yükleniyor %</string>
+    <string name="open_doc">Dökümanı açmak için tıklayınız</string>
+    <string name="not_found_doc">Açmak istediğiniz döküman bulunamadı!</string>
+    <string name="no_doc">Bu yayına ait bir döküman bulunmamaktadır</string>
+
+    <string name="pd_loading">Yükleniyor…</string>
+    <string name="pd_wait">Bekleyiniz</string>
 </resources>

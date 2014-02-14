@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import com.tepav.reader.R;
@@ -67,11 +68,23 @@ public class PDFDownloadActvity extends Activity {
         new PDF_Task().execute(getIntent().getStringExtra("file_url"), getIntent().getStringExtra("file_name"));
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
     public class PDF_Task extends AsyncTask<String, Integer, File> {
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-            buttonOpenDownloadedPDF.setText("PDF Yükleniyor %" + values[0]);
+            buttonOpenDownloadedPDF.setText(getResources().getString(R.string.doc_downloading) + values[0]);
         }
 
         @Override
@@ -122,13 +135,13 @@ public class PDFDownloadActvity extends Activity {
         @Override
         protected void onPostExecute(File file) {
             downloadedPDF = file;
-            buttonOpenDownloadedPDF.setText("Dokumani açmak için tiklayiniz.");
+            buttonOpenDownloadedPDF.setText(getResources().getString(R.string.open_doc));
         }
 
         @Override
         protected void onCancelled() {
             super.onCancelled();
-            buttonOpenDownloadedPDF.setText("Açmak istediğiniz dosya bulunamadı.");
+            buttonOpenDownloadedPDF.setText(getResources().getString(R.string.not_found_doc));
         }
     }
 }
