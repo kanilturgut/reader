@@ -1,8 +1,10 @@
 package com.tepav.reader.activities;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,18 +14,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.*;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import com.tepav.reader.R;
 import com.tepav.reader.adapters.*;
-import com.tepav.reader.delegates.HaberServiceDelegate;
-import com.tepav.reader.models.Haber;
-import com.tepav.reader.services.BaseRequestService;
-import com.tepav.reader.services.HaberService;
 import com.tepav.reader.services.ReadingListService;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -39,6 +35,7 @@ public class MainScreenActivity extends Activity {
 
     private ListView mDrawerList = null;
     private ListView listOfMainContent = null;
+    public int position = 0;
 
     String[] TITLES = {"Haberler", "Günlük", "Araştırma ve Yayınlar", "Raporlar", "Notlar", "Basılı Yayınlar", "Okuma Listem", "Favoriler", "Giriş Yap"};
 
@@ -142,14 +139,13 @@ public class MainScreenActivity extends Activity {
 
     public class MainContentFragment extends Fragment {
         public static final String ARG_MAIN_CONTENT_NUMBER = "main_content_number";
-        private int position;
 
         //empty constructor required for fragment subclasses
         public MainContentFragment() {
         }
 
         public MainContentFragment(int position) {
-            this.position = position;
+            MainScreenActivity.this.position = position;
         }
 
         @Override
@@ -212,5 +208,14 @@ public class MainScreenActivity extends Activity {
         AlertDialog alert = builder.create();
         alert.show();
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("MainActivity", "onRestart");
+        if (MainScreenActivity.this.position == 6 || MainScreenActivity.this.position == 7) {
+            selectItem(position);
+        }
     }
 }

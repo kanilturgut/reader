@@ -10,7 +10,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_above="@+id/rlGunlukFooter">
+            android:layout_above="@+id/footerLayout">
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -44,40 +44,8 @@
         </LinearLayout>
     </ScrollView>
 
-    <!--<RelativeLayout-->
-    <!--android:id="@+id/rlGunlukFooter"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="50dp"-->
-    <!--android:background="#352354"-->
-    <!--android:padding="1dp"-->
-    <!--android:layout_alignParentBottom="true">-->
-
-    <!--<Button-->
-    <!--android:id="@+id/buttonAddReadList"-->
-    <!--android:layout_width="38dp"-->
-    <!--android:layout_height="42dp"-->
-    <!--android:layout_toLeftOf="@+id/bFavList"-->
-    <!--android:layout_marginRight="10dp"-->
-    <!--android:background="@drawable/readlist"/>-->
-
-
-    <!--<Button-->
-    <!--android:id="@+id/bFavList"-->
-    <!--android:layout_width="46dp"-->
-    <!--android:layout_height="42dp"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:background="@drawable/favlist"/>-->
-
-    <!--<Button-->
-    <!--android:id="@+id/bShare"-->
-    <!--android:layout_toRightOf="@+id/bFavList"-->
-    <!--android:layout_width="55dp"-->
-    <!--android:layout_marginLeft="10dp"-->
-    <!--android:layout_height="45dp"-->
-    <!--android:background="@drawable/share"/>-->
-    <!--</RelativeLayout>-->
-
     <RelativeLayout
+            android:id="@+id/footerLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="#352354"
@@ -103,13 +71,13 @@
                     android:layout_height="42dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/readlist_selected"
-                    android:focusable="true"
                     android:visibility="gone"/>
 
             <Button
                     android:id="@+id/buttonAddFavList"
                     android:layout_width="46dp"
                     android:layout_height="42dp"
+                    android:layout_marginRight="10dp"
                     android:background="@drawable/favlist"/>
 
             <Button

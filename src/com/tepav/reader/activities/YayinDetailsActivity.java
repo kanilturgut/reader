@@ -1,7 +1,6 @@
 package com.tepav.reader.activities;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,6 +12,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,9 +20,13 @@ import com.tepav.reader.R;
 import com.tepav.reader.models.Yayin;
 import com.tepav.reader.services.ReadingListService;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,11 +36,11 @@ import java.net.URL;
  */
 public class YayinDetailsActivity extends Activity implements View.OnClickListener {
 
-    Button buttonAddToFavList, buttonAddToReadList, buttonShare;
+    Button buttonAddToFavList, buttonRemoveFromFavList, buttonAddToReadList, buttonRemoveFromReadList, buttonShare;
+    Button buttonOpenPDF;
     ReadingListService readingListService = null;
     Yayin yayin = null;
-
-    TextView tvProgressOfPdfDownload = null;
+    File downloadedPDF = null;
 
     private static String fileName = "tepav.pdf";
 
@@ -45,30 +49,48 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
         setContentView(R.layout.activity_yayin_details);
 
         yayin = (Yayin) getIntent().getSerializableExtra("class");
+        readingListService = ReadingListService.getInstance(this);
 
         getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#352354")));
         getActionBar().setTitle(yayin.getYtitle());
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
+        buttonOpenPDF = (Button) findViewById(R.id.buttonOpenPDF);
+        buttonOpenPDF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (downloadedPDF != null) {
+                    try {
+                        Uri path = Uri.fromFile(downloadedPDF);
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setDataAndType(path, "application/pdf");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+
+                    }
+                }
+            }
+        });
+
         //if some pdf files exist for this yayin
         if (isFilesExist()) {
             new Download_PDF_Task().execute();
         } else {
-            tvProgressOfPdfDownload = (TextView) findViewById(R.id.tvProgressOfPdfDownload);
-            tvProgressOfPdfDownload.setText("No PDF file found");
+            buttonOpenPDF.setText("No PDF file found");
         }
 
-        buttonAddToFavList = (Button) findViewById(R.id.bFavList);
-        buttonAddToFavList.setOnClickListener(this);
+        TextView tvHaberDetailTitle = (TextView) findViewById(R.id.tvYayinDetailTitle);
+        tvHaberDetailTitle.setText(yayin.getYtitle());
 
-        buttonAddToReadList = (Button) findViewById(R.id.bReadList);
-        buttonAddToReadList.setOnClickListener(this);
+        TextView tvHaberDetailRelatedInfo = (TextView) findViewById(R.id.tvYayinDetailRelatedInfo);
+        tvHaberDetailRelatedInfo.setText(yayin.getYauthors());
 
-        buttonShare = (Button) findViewById(R.id.bShare);
-        buttonShare.setOnClickListener(this);
+        WebView mWebView = (WebView) findViewById(R.id.webview);
+        mWebView.loadData(yayin.getYcontent(), "text/html; charset=UTF-8", null);
 
-        readingListService = ReadingListService.getInstance(this);
-
+        initializeButtons();
     }
 
     @Override
@@ -88,14 +110,44 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
         return (yayin.getFileList().size() > 0);
     }
 
+    private void initializeButtons() {
+
+        buttonAddToFavList = (Button) findViewById(R.id.buttonAddFavList);
+        buttonAddToFavList.setOnClickListener(this);
+
+        buttonRemoveFromFavList = (Button) findViewById(R.id.buttonRemoveFavList);
+        buttonRemoveFromFavList.setOnClickListener(this);
+
+        buttonAddToReadList = (Button) findViewById(R.id.buttonAddReadList);
+        buttonAddToReadList.setOnClickListener(this);
+
+        buttonRemoveFromReadList = (Button) findViewById(R.id.buttonRemoveReadList);
+        buttonRemoveFromReadList.setOnClickListener(this);
+
+        buttonShare = (Button) findViewById(R.id.bShare);
+        buttonShare.setOnClickListener(this);
+
+        checkLists();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.bFavList:
+            case R.id.buttonAddFavList:
                 readingListService.save(yayin, ReadingListService.PERSISTANCE_TYPE_FAVORITES);
+                disableAndEnableButtons(buttonAddToFavList, buttonRemoveFromFavList);
                 break;
-            case  R.id.bReadList:
+            case R.id.buttonRemoveFavList:
+                readingListService.delete(yayin, ReadingListService.PERSISTANCE_TYPE_FAVORITES);
+                disableAndEnableButtons(buttonRemoveFromFavList, buttonAddToFavList);
+                break;
+            case R.id.buttonAddReadList:
                 readingListService.save(yayin, ReadingListService.PERSISTANCE_TYPE_READ_LIST);
+                disableAndEnableButtons(buttonAddToReadList, buttonRemoveFromReadList);
+                break;
+            case R.id.buttonRemoveReadList:
+                readingListService.delete(yayin, ReadingListService.PERSISTANCE_TYPE_READ_LIST);
+                disableAndEnableButtons(buttonRemoveFromReadList, buttonAddToReadList);
                 break;
             case R.id.bShare:
                 Toast.makeText(this, "Social Share", Toast.LENGTH_LONG).show();
@@ -105,12 +157,9 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
 
     private class Download_PDF_Task extends AsyncTask<String, Integer, java.io.File> {
 
-
         @Override
         protected void onProgressUpdate(Integer... values) {
-
-            TextView tvProgress = (TextView) findViewById(R.id.tvProgressOfPdfDownload);
-            tvProgress.setText("PDF Yükleniyor %" + values[0]);
+            buttonOpenPDF.setText("PDF Yükleniyor %" + values[0]);
         }
 
         @Override
@@ -125,10 +174,8 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
                 c.connect();
 
                 int fileLength = c.getContentLength();
-
                 String PATH = Environment.getExternalStorageDirectory()
                         + "/tepavReader/";
-                Log.d("Download_PDF_Task", "PATH: " + PATH);
                 file = new java.io.File(PATH);
                 if (!file.exists()) {
                     file.mkdirs();
@@ -138,9 +185,7 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
                 InputStream is = c.getInputStream();
                 byte[] buffer = new byte[1024];
                 int len1 = 0;
-
                 long total = 0;
-
                 while ((len1 = is.read(buffer)) != -1) {
                     total += len1;
                     publishProgress((int) (total * 100 / fileLength));
@@ -157,16 +202,8 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
 
         @Override
         protected void onPostExecute(java.io.File file) {
-            Uri path = Uri.fromFile(file);
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(path, "application/pdf");
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-            } catch (ActivityNotFoundException e) {
-
-            }
+            downloadedPDF = file;
+            buttonOpenPDF.setText("Dokumani açmak için tiklayiniz.");
         }
     }
 
@@ -174,15 +211,50 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
     public void onBackPressed() {
         super.onBackPressed();
 
-        try{
+        try {
             File file = new File(Environment.getExternalStorageDirectory() + "/tepavReader/" + fileName);
             if (file.exists())
                 file.delete();
         } catch (Exception e) {
             Log.e("YayinDetailsActivity", "FileNotFound", e);
         }
-
-
     }
+
+    private void disableAndEnableButtons(Button disableThisButton, Button enableThisButton) {
+        disableThisButton.setVisibility(Button.GONE);
+        enableThisButton.setVisibility(Button.VISIBLE);
+    }
+
+    private void checkLists(){
+        checkIfInFavoriteList();
+        checkIfInReadList();
+    }
+
+    private void checkIfInFavoriteList() {
+        List<Object> favoriteList = readingListService.getFavoritesList();
+        for (Object object: favoriteList) {
+            if (object instanceof Yayin) {
+                Yayin favoritedYayin = (Yayin) object;
+                if (favoritedYayin.getYayin_id().equals(yayin.getYayin_id())) {
+                    //it is already in favorite list
+                    disableAndEnableButtons(buttonAddToFavList, buttonRemoveFromFavList);
+                }
+            }
+        }
+    }
+
+    private void checkIfInReadList() {
+        List<Object> readList = readingListService.getReadingList();
+        for (Object object: readList) {
+            if (object instanceof Yayin) {
+                Yayin readedYayin = (Yayin) object;
+                if (readedYayin.getYayin_id().equals(yayin.getYayin_id())) {
+                    //it is already in favorite list
+                    disableAndEnableButtons(buttonAddToReadList, buttonRemoveFromReadList);
+                }
+            }
+        }
+    }
+
 }
 

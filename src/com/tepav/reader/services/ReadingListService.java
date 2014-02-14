@@ -23,9 +23,9 @@ public class ReadingListService {
     private User currentUser;
     private BaseDao baseDao;
 
-    public  static int PERSISTANCE_TYPE_FAVORITES = 10;
-    public  static int PERSISTANCE_TYPE_READ_LIST = 11;
-    private static int PERSISTANCE_TYPE_BOTH      = 12;
+    public static int PERSISTANCE_TYPE_FAVORITES = 10;
+    public static int PERSISTANCE_TYPE_READ_LIST = 11;
+    private static int PERSISTANCE_TYPE_BOTH = 12;
 
     private ReadingListService() {
 
@@ -46,16 +46,15 @@ public class ReadingListService {
         return instance;
     }
 
-    public void save(Haber haber , int type) {
+    public void save(Haber haber, int type) {
 
 
         if (haber.getPersistanceType() == null) {
             haber.setPersistanceType(type);
             baseDao.getHaberDao().insert(haber);
-        }
-        else {
-            if ( (haber.getPersistanceType() == PERSISTANCE_TYPE_FAVORITES && type == PERSISTANCE_TYPE_READ_LIST) ||
-                 (haber.getPersistanceType() == PERSISTANCE_TYPE_READ_LIST && type == PERSISTANCE_TYPE_FAVORITES) ) {
+        } else {
+            if ((haber.getPersistanceType() == PERSISTANCE_TYPE_FAVORITES && type == PERSISTANCE_TYPE_READ_LIST) ||
+                    (haber.getPersistanceType() == PERSISTANCE_TYPE_READ_LIST && type == PERSISTANCE_TYPE_FAVORITES)) {
                 haber.setPersistanceType(PERSISTANCE_TYPE_BOTH);
                 baseDao.getHaberDao().update(haber);
             }
@@ -65,15 +64,14 @@ public class ReadingListService {
         baseDao.getUserDao().update(currentUser);
     }
 
-    public void save(Gunluk gunluk , int type) {
+    public void save(Gunluk gunluk, int type) {
 
         if (gunluk.getPersistanceType() == null) {
             gunluk.setPersistanceType(type);
             baseDao.getGunlukDao().insert(gunluk);
-        }
-        else {
-            if ( (gunluk.getPersistanceType() == PERSISTANCE_TYPE_FAVORITES && type == PERSISTANCE_TYPE_READ_LIST) ||
-                 (gunluk.getPersistanceType() == PERSISTANCE_TYPE_READ_LIST && type == PERSISTANCE_TYPE_FAVORITES) ) {
+        } else {
+            if ((gunluk.getPersistanceType() == PERSISTANCE_TYPE_FAVORITES && type == PERSISTANCE_TYPE_READ_LIST) ||
+                    (gunluk.getPersistanceType() == PERSISTANCE_TYPE_READ_LIST && type == PERSISTANCE_TYPE_FAVORITES)) {
                 gunluk.setPersistanceType(PERSISTANCE_TYPE_BOTH);
                 baseDao.getGunlukDao().update(gunluk);
             }
@@ -83,15 +81,14 @@ public class ReadingListService {
         baseDao.getUserDao().update(currentUser);
     }
 
-    public void save(Yayin yayin , int type) {
+    public void save(Yayin yayin, int type) {
 
         if (yayin.getPersistanceType() == null) {
             yayin.setPersistanceType(type);
             baseDao.getYayinDao().insert(yayin);
-        }
-        else {
-            if ( (yayin.getPersistanceType() == PERSISTANCE_TYPE_FAVORITES && type == PERSISTANCE_TYPE_READ_LIST) ||
-                 (yayin.getPersistanceType() == PERSISTANCE_TYPE_READ_LIST && type == PERSISTANCE_TYPE_FAVORITES) ) {
+        } else {
+            if ((yayin.getPersistanceType() == PERSISTANCE_TYPE_FAVORITES && type == PERSISTANCE_TYPE_READ_LIST) ||
+                    (yayin.getPersistanceType() == PERSISTANCE_TYPE_READ_LIST && type == PERSISTANCE_TYPE_FAVORITES)) {
                 yayin.setPersistanceType(PERSISTANCE_TYPE_BOTH);
                 baseDao.getYayinDao().update(yayin);
             }
@@ -102,71 +99,115 @@ public class ReadingListService {
     }
 
     public void update(Haber haber) {
-        baseDao.getHaberDao().update(haber);
+
+        Haber haberInList = baseDao.getHaberDao().queryBuilder().where(HaberDao.Properties.Haber_id.eq(haber.getHaber_id())).list().get(0);
+
+        baseDao.getHaberDao().update(haberInList);
         baseDao.getUserDao().update(currentUser);
     }
 
     public void update(Gunluk gunluk) {
-        baseDao.getGunlukDao().update(gunluk);
+
+        Gunluk gunlukInList = baseDao.getGunlukDao().queryBuilder().where(GunlukDao.Properties.Gunluk_id.eq(gunluk.getGunluk_id())).list().get(0);
+
+        baseDao.getGunlukDao().update(gunlukInList);
         baseDao.getUserDao().update(currentUser);
     }
 
     public void update(Yayin yayin) {
-        baseDao.getYayinDao().update(yayin);
+
+        Yayin yayinInList = baseDao.getYayinDao().queryBuilder().where(YayinDao.Properties.Yayin_id.eq(yayin.getYayin_id())).list().get(0);
+
+        baseDao.getYayinDao().update(yayinInList);
         baseDao.getUserDao().update(currentUser);
     }
 
-    public void delete(Haber haber , int type) {
+    public void delete(Haber haber, int type) {
 
-        if (haber.getPersistanceType() == PERSISTANCE_TYPE_BOTH) {
+        Haber haberInList = baseDao.getHaberDao().queryBuilder().where(HaberDao.Properties.Haber_id.eq(haber.getHaber_id())).list().get(0);
+
+        if (haberInList.getPersistanceType() == PERSISTANCE_TYPE_BOTH) {
             if (type == PERSISTANCE_TYPE_FAVORITES)
-                haber.setPersistanceType(PERSISTANCE_TYPE_READ_LIST);
+                haberInList.setPersistanceType(PERSISTANCE_TYPE_READ_LIST);
             else
-                haber.setPersistanceType(PERSISTANCE_TYPE_FAVORITES);
+                haberInList.setPersistanceType(PERSISTANCE_TYPE_FAVORITES);
 
-            baseDao.getHaberDao().update(haber);
-        }
-        else {
-            baseDao.getHaberDao().delete(haber);
-            currentUser.getHaberList().remove(haber);
-        }
+            baseDao.getHaberDao().update(haberInList);
+        } else {
 
-        baseDao.getUserDao().update(currentUser);
+            baseDao.getHaberDao().deleteByKey(haberInList.getId());
 
-    }
+            Haber haberToDelete = null;
+            for (Haber h : currentUser.getHaberList()) {
+                if (h.getHaber_id().equals(haberInList.getHaber_id())) {
+                    haberToDelete = h;
+                    break;
+                }
+            }
 
-    public void delete(Gunluk gunluk , int type) {
+            currentUser.getHaberList().remove(haberToDelete);
 
-        if (gunluk.getPersistanceType() == PERSISTANCE_TYPE_BOTH) {
-            if (type == PERSISTANCE_TYPE_FAVORITES)
-                gunluk.setPersistanceType(PERSISTANCE_TYPE_READ_LIST);
-            else
-                gunluk.setPersistanceType(PERSISTANCE_TYPE_FAVORITES);
-
-            baseDao.getGunlukDao().update(gunluk);
-        }
-        else {
-            baseDao.getGunlukDao().delete(gunluk);
-            currentUser.getGunlukList().remove(gunluk);
         }
 
         baseDao.getUserDao().update(currentUser);
 
     }
 
-    public void delete(Yayin yayin , int type) {
+    public void delete(Gunluk gunluk, int type) {
 
-        if (yayin.getPersistanceType() == PERSISTANCE_TYPE_BOTH) {
+        Gunluk gunlukInList = baseDao.getGunlukDao().queryBuilder().where(GunlukDao.Properties.Gunluk_id.eq(gunluk.getGunluk_id())).list().get(0);
+
+        if (gunlukInList.getPersistanceType() == PERSISTANCE_TYPE_BOTH) {
             if (type == PERSISTANCE_TYPE_FAVORITES)
-                yayin.setPersistanceType(PERSISTANCE_TYPE_READ_LIST);
+                gunlukInList.setPersistanceType(PERSISTANCE_TYPE_READ_LIST);
             else
-                yayin.setPersistanceType(PERSISTANCE_TYPE_FAVORITES);
+                gunlukInList.setPersistanceType(PERSISTANCE_TYPE_FAVORITES);
 
-            baseDao.getYayinDao().update(yayin);
+            baseDao.getGunlukDao().update(gunlukInList);
+        } else {
+
+            baseDao.getGunlukDao().deleteByKey(gunlukInList.getId());
+
+            Gunluk gunlukToDelete = null;
+            for (Gunluk g : currentUser.getGunlukList()) {
+                if (g.getGunluk_id().equals(gunlukInList.getGunluk_id())) {
+                    gunlukToDelete = g;
+                    break;
+                }
+            }
+
+            currentUser.getGunlukList().remove(gunlukToDelete);
+
         }
-        else {
-            baseDao.getYayinDao().delete(yayin);
-            currentUser.getYayinList().remove(yayin);
+
+        baseDao.getUserDao().update(currentUser);
+
+    }
+
+    public void delete(Yayin yayin, int type) {
+
+        Yayin yayinInList = baseDao.getYayinDao().queryBuilder().where(YayinDao.Properties.Yayin_id.eq(yayin.getYayin_id())).list().get(0);
+
+        if (yayinInList.getPersistanceType() == PERSISTANCE_TYPE_BOTH) {
+            if (type == PERSISTANCE_TYPE_FAVORITES)
+                yayinInList.setPersistanceType(PERSISTANCE_TYPE_READ_LIST);
+            else
+                yayinInList.setPersistanceType(PERSISTANCE_TYPE_FAVORITES);
+
+            baseDao.getYayinDao().update(yayinInList);
+        } else {
+
+            baseDao.getHaberDao().deleteByKey(yayinInList.getId());
+
+            Yayin yayinToDelete = null;
+            for (Yayin y : currentUser.getYayinList()) {
+                if (y.getYayin_id().equals(yayinInList.getYayin_id())) {
+                    yayinToDelete = y;
+                    break;
+                }
+            }
+
+            currentUser.getYayinList().remove(yayinToDelete);
         }
 
         baseDao.getUserDao().update(currentUser);
@@ -176,8 +217,8 @@ public class ReadingListService {
     public List getReadingList() {
         List readingList = new ArrayList();
 
-        List<Haber>  haberList  = currentUser.getHaberList();
-        List<Yayin>  yayinList  = currentUser.getYayinList();
+        List<Haber> haberList = currentUser.getHaberList();
+        List<Yayin> yayinList = currentUser.getYayinList();
         List<Gunluk> gunlukList = currentUser.getGunlukList();
 
         for (Haber haber : haberList) {
@@ -201,8 +242,8 @@ public class ReadingListService {
     public List getFavoritesList() {
         List readingList = new ArrayList();
 
-        List<Haber>  haberList  = currentUser.getHaberList();
-        List<Yayin>  yayinList  = currentUser.getYayinList();
+        List<Haber> haberList = currentUser.getHaberList();
+        List<Yayin> yayinList = currentUser.getYayinList();
         List<Gunluk> gunlukList = currentUser.getGunlukList();
 
         for (Haber haber : haberList) {

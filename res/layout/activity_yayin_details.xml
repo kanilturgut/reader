@@ -5,44 +5,103 @@
                 android:layout_height="match_parent"
                 android:background="#FFFFFF">
 
-    <TextView
-            android:id="@+id/tvProgressOfPdfDownload"
+    <LinearLayout
+            android:id="@+id/headerLayout"
             android:layout_width="match_parent"
-            android:text="asdsads"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/tvYayinDetailTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="22sp"/>
+
+        <TextView
+                android:id="@+id/tvYayinDetailRelatedInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#BBBBBB"
+                android:textSize="16sp"
+                android:layout_margin="10dp"/>
+
+        <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <Button
+            android:id="@+id/buttonOpenPDF"
+            android:layout_width="match_parent"
+            android:text="PDF Yükleniyor %0"
+            android:layout_below="@+id/headerLayout"
+            android:layout_above="@+id/footerLayout"
             android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:textColor="#BBBBBB"
             android:gravity="center"/>
 
     <RelativeLayout
-            android:id="@+id/rlYayinFooter"
+            android:id="@+id/footerLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="#352354"
             android:padding="1dp"
             android:layout_alignParentBottom="true">
 
-        <Button
-                android:id="@+id/bReadList"
-                android:layout_width="38dp"
-                android:layout_height="42dp"
-                android:layout_toLeftOf="@+id/bFavList"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/readlist"/>
-
-
-        <Button
-                android:id="@+id/bFavList"
-                android:layout_width="46dp"
-                android:layout_height="42dp"
+        <LinearLayout
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/favlist"/>
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-        <Button
-                android:id="@+id/bShare"
-                android:layout_toRightOf="@+id/bFavList"
-                android:layout_width="55dp"
-                android:layout_marginLeft="10dp"
-                android:layout_height="45dp"
-                android:background="@drawable/share"/>
+            <Button
+                    android:id="@+id/buttonAddReadList"
+                    android:layout_width="38dp"
+                    android:layout_height="42dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/readlist"/>
+
+            <Button
+                    android:id="@+id/buttonRemoveReadList"
+                    android:layout_width="38dp"
+                    android:layout_height="42dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/readlist_selected"
+                    android:visibility="gone"/>
+
+            <Button
+                    android:id="@+id/buttonAddFavList"
+                    android:layout_width="46dp"
+                    android:layout_height="42dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/favlist"/>
+
+            <Button
+                    android:id="@+id/buttonRemoveFavList"
+                    android:layout_width="46dp"
+                    android:layout_height="42dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/favlist_selected"
+                    android:visibility="gone"/>
+
+            <Button
+                    android:id="@+id/bShare"
+                    android:layout_width="55dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/share"/>
+        </LinearLayout>
+
+
     </RelativeLayout>
 
 </RelativeLayout>

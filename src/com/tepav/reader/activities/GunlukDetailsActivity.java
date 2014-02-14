@@ -14,6 +14,8 @@ import com.tepav.reader.R;
 import com.tepav.reader.models.Gunluk;
 import com.tepav.reader.services.ReadingListService;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Kadir Anil Turgut
@@ -47,6 +49,7 @@ public class GunlukDetailsActivity extends Activity implements View.OnClickListe
         mWebView.loadData(gunluk.getBcontent(), "text/html; charset=UTF-8", null);
 
         initializeButtons();
+        checkLists();
     }
 
     private void initializeButtons() {
@@ -109,5 +112,36 @@ public class GunlukDetailsActivity extends Activity implements View.OnClickListe
     private void disableAndEnableButtons(Button disableThisButton, Button enableThisButton) {
         disableThisButton.setVisibility(Button.GONE);
         enableThisButton.setVisibility(Button.VISIBLE);
+    }
+
+    private void checkLists(){
+        checkIfInFavoriteList();
+        checkIfInReadList();
+    }
+
+    private void checkIfInFavoriteList() {
+        List<Object> favoriteList = readingListService.getFavoritesList();
+        for (Object object: favoriteList) {
+            if (object instanceof Gunluk) {
+                Gunluk favoritedGunluk = (Gunluk) object;
+                if (favoritedGunluk.getGunluk_id().equals(gunluk.getGunluk_id())) {
+                    //it is already in favorite list
+                    disableAndEnableButtons(buttonAddToFavList, buttonRemoveFromFavList);
+                }
+            }
+        }
+    }
+
+    private void checkIfInReadList() {
+        List<Object> readList = readingListService.getReadingList();
+        for (Object object: readList) {
+            if (object instanceof Gunluk) {
+                Gunluk readedGunluk = (Gunluk) object;
+                if (readedGunluk.getGunluk_id().equals(gunluk.getGunluk_id())) {
+                    //it is already in favorite list
+                    disableAndEnableButtons(buttonAddToReadList, buttonRemoveFromReadList);
+                }
+            }
+        }
     }
 }
