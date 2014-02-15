@@ -11,6 +11,6 @@
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:textColor="#BBBBBB"
-            android:text="Your file is downloading..."/>
+            android:text="@string/doc_downloading"/>
 
 </RelativeLayout>

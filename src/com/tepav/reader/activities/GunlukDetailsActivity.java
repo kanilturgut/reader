@@ -1,6 +1,7 @@
 package com.tepav.reader.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -104,7 +105,13 @@ public class GunlukDetailsActivity extends Activity implements View.OnClickListe
                 disableAndEnableButtons(buttonRemoveFromReadList, buttonAddToReadList);
                 break;
             case R.id.bShare:
-                Toast.makeText(this, "Social Share", Toast.LENGTH_LONG).show();
+                String url = "http://www.tepav.org.tr/tr/blog/s/" + gunluk.getGunluk_id();
+
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject Here");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+                startActivity(Intent.createChooser(shareIntent, "Share With"));
                 break;
         }
     }
