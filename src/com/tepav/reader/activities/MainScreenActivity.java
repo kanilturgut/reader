@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import com.tepav.reader.R;
 import com.tepav.reader.adapters.*;
 import com.tepav.reader.services.ReadingListService;
+import com.tepav.reader.utils.Util;
 
 /**
  * Created with IntelliJ IDEA.
@@ -37,6 +38,16 @@ public class MainScreenActivity extends Activity {
     private ListView listOfMainContent = null;
     public int position = 0;
     private String[] TITLES;
+
+    private static final int HABER = 0;
+    private static final int GUNLUK = 1;
+    private static final int ARASTIRMA_VE_YAYINLAR = 2;
+    private static final int RAPORLAR = 3;
+    private static final int NOTLAR = 4;
+    private static final int BASILI_YAYINLAR = 5;
+    private static final int OKUMA_LISTESI = 6;
+    private static final int FAVORILER = 7;
+    private static final int MAIL_LISTESI = 8;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +68,15 @@ public class MainScreenActivity extends Activity {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                selectItem(i);
+                if (!Util.isNetworkAvailable(MainScreenActivity.this)) {
+                    if (i == OKUMA_LISTESI || i == FAVORILER) {
+                        selectItem(i);
+                    } else {
+                        createAlertDialog();
+                    }
+                } else {
+                    selectItem(i);
+                }
             }
         });
 
@@ -86,10 +105,12 @@ public class MainScreenActivity extends Activity {
         getActionBar().setHomeButtonEnabled(true);
 
         if (savedInstanceState == null) {
-            selectItem(0);
+            if (!Util.isNetworkAvailable(this)) {
+                selectItem(OKUMA_LISTESI);
+            } else {
+                selectItem(HABER);
+            }
         }
-
-
     }
 
     @Override
@@ -212,5 +233,18 @@ public class MainScreenActivity extends Activity {
         if (MainScreenActivity.this.position == 6 || MainScreenActivity.this.position == 7) {
             selectItem(position);
         }
+    }
+
+    private void createAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getResources().getString(R.string.no_internet))
+                .setCancelable(false)
+                .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

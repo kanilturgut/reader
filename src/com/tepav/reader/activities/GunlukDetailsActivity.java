@@ -10,7 +10,6 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.tepav.reader.R;
 import com.tepav.reader.models.Gunluk;
 import com.tepav.reader.services.ReadingListService;

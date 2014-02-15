@@ -2,10 +2,8 @@ package com.tepav.reader.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +11,6 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.tepav.reader.R;
 import com.tepav.reader.models.Haber;
 import com.tepav.reader.services.ReadingListService;

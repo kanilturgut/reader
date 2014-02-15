@@ -20,6 +20,9 @@
 
     <string name="share_with">Bununla paylaş</string>
 
+    <string name="no_internet">İnternet bağlantınız bulunmadığı için Okuma Listesi ve Favoriler haricindeki menüleri kullanamazsınız.</string>
+    <string name="ok">Tamam</string>
+
     <string-array name="menus">
         <item>Haberler</item>
         <item>Günlük</item>
