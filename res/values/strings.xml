@@ -18,6 +18,8 @@
     <string name="pd_loading">Yükleniyor…</string>
     <string name="pd_wait">Bekleyiniz</string>
 
+    <string name="share_with">Bununla paylaş</string>
+
     <string-array name="menus">
         <item>Haberler</item>
         <item>Günlük</item>

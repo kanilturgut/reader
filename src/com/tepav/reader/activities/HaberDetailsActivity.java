@@ -115,9 +115,9 @@ public class HaberDetailsActivity extends Activity implements View.OnClickListen
 
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject Here");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, haber.getHtitle());
                 shareIntent.putExtra(Intent.EXTRA_TEXT, url);
-                startActivity(Intent.createChooser(shareIntent, "Share With"));
+                startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_with)));
 
                 break;
         }

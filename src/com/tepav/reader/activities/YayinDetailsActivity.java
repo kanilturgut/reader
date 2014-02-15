@@ -150,7 +150,13 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
                 disableAndEnableButtons(buttonRemoveFromReadList, buttonAddToReadList);
                 break;
             case R.id.bShare:
-                Toast.makeText(this, "Social Share", Toast.LENGTH_LONG).show();
+                String url = "http://www.tepav.org.tr/tr/yayin/s/" + yayin.getYayin_id();
+
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, yayin.getYtitle());
+                shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+                startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_with)));
                 break;
         }
     }
@@ -160,6 +166,7 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
         @Override
         protected void onProgressUpdate(Integer... values) {
             buttonOpenPDF.setText(getResources().getString(R.string.doc_downloading) + values[0]);
+
         }
 
         @Override
