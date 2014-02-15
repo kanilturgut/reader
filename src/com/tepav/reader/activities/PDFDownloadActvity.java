@@ -65,7 +65,7 @@ public class PDFDownloadActvity extends Activity {
             }
         });
 
-        new PDF_Task().execute(getIntent().getStringExtra("file_url"), getIntent().getStringExtra("file_name"));
+        chechIfAlreadySaved(getIntent().getStringExtra("file_name"));
     }
 
     @Override
@@ -142,6 +142,17 @@ public class PDFDownloadActvity extends Activity {
         protected void onCancelled() {
             super.onCancelled();
             buttonOpenDownloadedPDF.setText(getResources().getString(R.string.not_found_doc));
+        }
+    }
+
+    private void chechIfAlreadySaved(String filename) {
+        File newFile = new File(Environment.getExternalStorageDirectory() + "/tepavReader/" + filename);
+
+        if (!newFile.exists()) {
+            new PDF_Task().execute(getIntent().getStringExtra("file_url"), filename);
+        } else {
+            downloadedPDF = newFile;
+            buttonOpenDownloadedPDF.setText(getResources().getString(R.string.open_doc));
         }
     }
 }

@@ -74,7 +74,7 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
 
         //if some pdf files exist for this yayin
         if (isFilesExist()) {
-            new Download_PDF_Task().execute();
+            chechIfAlreadySaved(yayin.getFileList().get(0).getName());
         } else {
             buttonOpenPDF.setText(getResources().getString(R.string.no_doc));
         }
@@ -254,5 +254,14 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
         }
     }
 
-}
+    private void chechIfAlreadySaved(String filename) {
+        File newFile = new File(Environment.getExternalStorageDirectory() + "/tepavReader/" + filename);
 
+        if (!newFile.exists()) {
+            new Download_PDF_Task().execute();
+        } else {
+            downloadedPDF = newFile;
+            buttonOpenPDF.setText(getResources().getString(R.string.open_doc));
+        }
+    }
+}
