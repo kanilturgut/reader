@@ -93,6 +93,7 @@ public class BaseRequestService {
                         post.setEntity(entity);
 
                     post.setHeader("Content-Type" , contentType);
+                    post.setHeader("X-Accept" , "application/json");
 
                     response = defaultHttpClient.execute(post);
                 }
