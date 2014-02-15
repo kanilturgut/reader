@@ -49,7 +49,6 @@ public class MainScreenActivity extends Activity {
         getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#352354")));
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         myRelativeDrawerLayout = (RelativeLayout) findViewById(R.id.relativeDrawerLayout);
 
