@@ -2,10 +2,7 @@ package com.tepav.reader.services;
 
 import android.content.Context;
 import android.util.Log;
-import com.tepav.reader.models.Gunluk;
-import com.tepav.reader.models.Haber;
-import com.tepav.reader.models.User;
-import com.tepav.reader.models.Yayin;
+import com.tepav.reader.models.*;
 import com.tepav.reader.repositories.*;
 
 import java.util.ArrayList;
@@ -44,9 +41,16 @@ public class ReadingListService {
 
     public void save(Haber haber, int type) {
 
-
         if (haber.getPersistanceType() == null) {
             haber.setPersistanceType(type);
+
+            List<File> fileList = haber.getFileListWithoutQuery();
+
+            for(File file : fileList) {
+                file.setHaber_id(haber.getHaber_id());
+                baseDao.getFileDao().insert(file);
+            }
+
             baseDao.getHaberDao().insert(haber);
         } else {
             if ((haber.getPersistanceType() == PERSISTANCE_TYPE_FAVORITES && type == PERSISTANCE_TYPE_READ_LIST) ||
@@ -83,6 +87,13 @@ public class ReadingListService {
                 baseDao.getYayinDao().update(yayin);
             }
         }
+    }
+
+    public List<File> getFileList(Haber haber) {
+
+        List<File> fetchedFiles = baseDao.getFileDao().queryBuilder().where(FileDao.Properties.Haber_id.eq(haber.getHaber_id())).list();
+
+        return fetchedFiles;
     }
 
     public void update(Haber haber) {

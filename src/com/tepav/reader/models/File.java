@@ -14,6 +14,7 @@ public class File implements Serializable{
     private String name;
     private String url;
     private String path;
+    private String haber_id;
 
     public File() {
     }
@@ -22,12 +23,13 @@ public class File implements Serializable{
         this.id = id;
     }
 
-    public File(Long id, String file_id, String name, String url, String path) {
+    public File(Long id, String file_id, String name, String url, String path, String haber_id) {
         this.id = id;
         this.file_id = file_id;
         this.name = name;
         this.url = url;
         this.path = path;
+        this.haber_id = haber_id;
     }
 
     public Long getId() {
@@ -68,6 +70,14 @@ public class File implements Serializable{
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getHaber_id() {
+        return haber_id;
+    }
+
+    public void setHaber_id(String haber_id) {
+        this.haber_id = haber_id;
     }
 
 }

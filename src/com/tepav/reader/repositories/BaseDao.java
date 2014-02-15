@@ -25,6 +25,10 @@ public class BaseDao {
     private GunlukDao gunlukDao;
     private YayinDao yayinDao;
 
+
+
+    private FileDao fileDao;
+
     private BaseDao() {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(applicationContext , DB , null);
         db = helper.getWritableDatabase();
@@ -36,6 +40,7 @@ public class BaseDao {
         haberDao     = daoSession.getHaberDao();
         gunlukDao    = daoSession.getGunlukDao();
         yayinDao     = daoSession.getYayinDao();
+        fileDao      = daoSession.getFileDao();
 
         applicationContext = null;
     }
@@ -68,4 +73,9 @@ public class BaseDao {
     public YayinDao getYayinDao() {
         return yayinDao;
     }
+
+    public FileDao getFileDao() {
+        return fileDao;
+    }
+
 }

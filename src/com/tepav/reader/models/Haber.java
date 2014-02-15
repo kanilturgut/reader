@@ -139,6 +139,10 @@ public class Haber implements Serializable{
         return fileList;
     }
 
+    public List<File> getFileListWithoutQuery() {
+        return this.fileList;
+    }
+
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     public synchronized void resetFileList() {
         fileList = null;

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.tepav.reader.R;
+import com.tepav.reader.models.File;
 import com.tepav.reader.models.Haber;
 import com.tepav.reader.services.ReadingListService;
 
@@ -50,9 +51,24 @@ public class HaberDetailsActivity extends Activity implements View.OnClickListen
         mWebView.loadData(haber.getHcontent(), "text/html; charset=UTF-8", null);
 
         LinearLayout filesLayout = (LinearLayout) findViewById(R.id.filesLayout);
-        for (com.tepav.reader.models.File file : haber.getFileList()) {
-            filesLayout.addView(createTextView(file));
+
+
+        try {
+            for (com.tepav.reader.models.File file : haber.getFileListWithoutQuery()) {
+                filesLayout.addView(createTextView(file));
+            }
         }
+        catch (Exception e) {
+            List<File> fileList = readingListService.getFileList(haber);
+
+            if (fileList != null) {
+                for (com.tepav.reader.models.File file : fileList) {
+                    filesLayout.addView(createTextView(file));
+                }
+            }
+        }
+
+
 
         initializeButtons();
         checkLists();
