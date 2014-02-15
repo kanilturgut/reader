@@ -106,6 +106,7 @@ public class MainScreenActivity extends Activity {
 
         if (savedInstanceState == null) {
             if (!Util.isNetworkAvailable(this)) {
+                createAlertDialog();
                 selectItem(OKUMA_LISTESI);
             } else {
                 selectItem(HABER);
