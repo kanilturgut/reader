@@ -36,13 +36,16 @@ public class MainScreenActivity extends Activity {
     private ListView mDrawerList = null;
     private ListView listOfMainContent = null;
     public int position = 0;
+    private String[] TITLES;
 
-    String[] TITLES = {"Haberler", "Günlük", "Araştırma ve Yayınlar", "Raporlar", "Notlar", "Basılı Yayınlar", "Okuma Listem", "Favoriler", "Giriş Yap"};
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-        getActionBar().setTitle("Haberler");
+
+        TITLES = getResources().getStringArray(R.array.menus);
+
+        getActionBar().setTitle(TITLES[0]);
         getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#352354")));
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -90,12 +93,12 @@ public class MainScreenActivity extends Activity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main_screen, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_main_screen, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

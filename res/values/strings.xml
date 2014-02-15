@@ -17,4 +17,15 @@
 
     <string name="pd_loading">Yükleniyor…</string>
     <string name="pd_wait">Bekleyiniz</string>
+
+    <string-array name="menus">
+        <item>Haberler</item>
+        <item>Günlük</item>
+        <item>Araştırma ve Yayınlar</item>
+        <item>Raporlar</item>
+        <item>Notlar</item>
+        <item>Basılı Yayınlar</item>
+        <item>Favoriler</item>
+        <item>Mail Listemize Kaydolun</item>
+    </string-array>
 </resources>
