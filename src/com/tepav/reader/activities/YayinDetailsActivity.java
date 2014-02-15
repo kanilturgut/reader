@@ -42,8 +42,6 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
     Yayin yayin = null;
     File downloadedPDF = null;
 
-    private static String fileName = "tepav.pdf";
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yayin_details);
@@ -187,7 +185,7 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
                 if (!file.exists()) {
                     file.mkdirs();
                 }
-                outputFile = new java.io.File(file, fileName);
+                outputFile = new java.io.File(file, yayin.getFileList().get(0).getName());
                 FileOutputStream fos = new FileOutputStream(outputFile);
                 InputStream is = c.getInputStream();
                 byte[] buffer = new byte[1024];
