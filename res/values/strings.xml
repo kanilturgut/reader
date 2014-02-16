@@ -22,6 +22,12 @@
 
     <string name="no_internet">İnternet bağlantınız bulunmadığı için Okuma Listesi ve Favoriler haricindeki menüleri kullanamazsınız.</string>
     <string name="ok">Tamam</string>
+    <string name="cancel">İptal</string>
+
+    <string name="mail_list">Mail Listesi</string>
+    <string name="newsletter">Mail listesine kaydolmak için lütfen geçerli bir eposta adresi giriniz</string>
+    <string name="hint_email">Eposta adresiniz</string>
+
 
     <string-array name="menus">
         <item>Haberler</item>

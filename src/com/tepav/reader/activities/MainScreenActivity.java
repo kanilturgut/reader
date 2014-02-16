@@ -1,20 +1,17 @@
 package com.tepav.reader.activities;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.app.*;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import com.tepav.reader.R;
@@ -140,17 +137,45 @@ public class MainScreenActivity extends Activity {
 
     private void selectItem(int position) {
 
-        //Update main content
-        Fragment fragment = new MainContentFragment(position);
-        Bundle args = new Bundle();
-        args.putInt(MainContentFragment.ARG_MAIN_CONTENT_NUMBER, position);
-        fragment.setArguments(args);
+        if (position != MAIL_LISTESI) {
+            //Update main content
+            Fragment fragment = new MainContentFragment(position);
+            Bundle args = new Bundle();
+            args.putInt(MainContentFragment.ARG_MAIN_CONTENT_NUMBER, position);
+            fragment.setArguments(args);
 
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
-        mDrawerList.setItemChecked(position, true);
-        getActionBar().setTitle(TITLES[position]);
+            mDrawerList.setItemChecked(position, true);
+            getActionBar().setTitle(TITLES[position]);
+
+        } else {
+            final Dialog dialog = new Dialog(MainScreenActivity.this);
+            dialog.setContentView(R.layout.custom_newsletter_dialog);
+            dialog.setTitle(getResources().getString(R.string.mail_list));
+
+            Button buttonDialogYes = (Button) dialog.findViewById(R.id.buttonDialogYes);
+            Button buttonDialogNo = (Button) dialog.findViewById(R.id.buttonDialogNo);
+
+            buttonDialogYes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
+            buttonDialogNo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+        }
+
+
         mDrawerLayout.closeDrawer(myRelativeDrawerLayout);
     }
 
@@ -196,10 +221,6 @@ public class MainScreenActivity extends Activity {
                 case FAVORILER:
                     listOfMainContent.setAdapter(new ReadingListAdapter(MainScreenActivity.this, ReadingListService.PERSISTANCE_TYPE_FAVORITES));
                     break;
-                case MAIL_LISTESI:
-                    listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
-                    break;
-
             }
 
             setTitle(TITLES[getArguments().getInt(ARG_MAIN_CONTENT_NUMBER)]);
