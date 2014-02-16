@@ -55,45 +55,51 @@
         <LinearLayout
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:orientation="horizontal">
 
             <Button
                     android:id="@+id/buttonAddReadList"
-                    android:layout_width="38dp"
-                    android:layout_height="42dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/readlist"/>
+                    android:background="@drawable/readlist"
+                    android:layout_weight="1"/>
 
             <Button
                     android:id="@+id/buttonRemoveReadList"
-                    android:layout_width="38dp"
-                    android:layout_height="42dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/readlist_selected"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    android:layout_weight="1"/>
 
             <Button
                     android:id="@+id/buttonAddFavList"
-                    android:layout_width="46dp"
-                    android:layout_height="42dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/favlist"/>
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/favlist"
+                    android:layout_weight="1"/>
 
             <Button
                     android:id="@+id/buttonRemoveFavList"
-                    android:layout_width="46dp"
-                    android:layout_height="42dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginRight="5dp"
                     android:background="@drawable/favlist_selected"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    android:layout_weight="1"/>
 
             <Button
                     android:id="@+id/bShare"
-                    android:layout_width="55dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_height="45dp"
-                    android:background="@drawable/share"/>
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/share"
+                    android:layout_weight="1"/>
         </LinearLayout>
 
 
