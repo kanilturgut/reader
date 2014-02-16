@@ -172,31 +172,31 @@ public class MainScreenActivity extends Activity {
             listOfMainContent = (ListView) rootView.findViewById(R.id.lvMainContent);
 
             switch (position) {
-                case 0:
+                case HABER:
                     listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
                     break;
-                case 1:
+                case GUNLUK:
                     listOfMainContent.setAdapter(new GunlukListAdapter(MainScreenActivity.this));
                     break;
-                case 2:
+                case ARASTIRMA_VE_YAYINLAR:
                     listOfMainContent.setAdapter(new YayinListAdapter(MainScreenActivity.this));
                     break;
-                case 3:
+                case RAPORLAR:
                     listOfMainContent.setAdapter(new RaporListAdapter(MainScreenActivity.this));
                     break;
-                case 4:
+                case NOTLAR:
                     listOfMainContent.setAdapter(new NotlarListAdapter(MainScreenActivity.this));
                     break;
-                case 5:
+                case BASILI_YAYINLAR:
                     listOfMainContent.setAdapter(new BasiliYayinListAdapter(MainScreenActivity.this));
                     break;
-                case 6:
+                case OKUMA_LISTESI:
                     listOfMainContent.setAdapter(new ReadingListAdapter(MainScreenActivity.this, ReadingListService.PERSISTANCE_TYPE_READ_LIST));
                     break;
-                case 7:
+                case FAVORILER:
                     listOfMainContent.setAdapter(new ReadingListAdapter(MainScreenActivity.this, ReadingListService.PERSISTANCE_TYPE_FAVORITES));
                     break;
-                case 8:
+                case MAIL_LISTESI:
                     listOfMainContent.setAdapter(new HaberListAdapter(MainScreenActivity.this));
                     break;
 
