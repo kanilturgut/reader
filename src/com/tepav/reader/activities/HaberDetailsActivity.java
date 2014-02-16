@@ -147,7 +147,7 @@ public class HaberDetailsActivity extends Activity implements View.OnClickListen
     }
 
     private void checkIfInFavoriteList() {
-        List<Object> favoriteList = readingListService.getFavoritesList();
+        List favoriteList = readingListService.getFavoritesList();
         for (Object object : favoriteList) {
             if (object instanceof Haber) {
                 Haber favoritedHaber = (Haber) object;
@@ -160,7 +160,7 @@ public class HaberDetailsActivity extends Activity implements View.OnClickListen
     }
 
     private void checkIfInReadList() {
-        List<Object> readList = readingListService.getReadingList();
+        List readList = readingListService.getReadingList();
         for (Object object : readList) {
             if (object instanceof Haber) {
                 Haber readedHaber = (Haber) object;

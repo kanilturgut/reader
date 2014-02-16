@@ -126,7 +126,7 @@ public class GunlukDetailsActivity extends Activity implements View.OnClickListe
     }
 
     private void checkIfInFavoriteList() {
-        List<Object> favoriteList = readingListService.getFavoritesList();
+        List favoriteList = readingListService.getFavoritesList();
         for (Object object: favoriteList) {
             if (object instanceof Gunluk) {
                 Gunluk favoritedGunluk = (Gunluk) object;
@@ -139,7 +139,7 @@ public class GunlukDetailsActivity extends Activity implements View.OnClickListe
     }
 
     private void checkIfInReadList() {
-        List<Object> readList = readingListService.getReadingList();
+        List readList = readingListService.getReadingList();
         for (Object object: readList) {
             if (object instanceof Gunluk) {
                 Gunluk readedGunluk = (Gunluk) object;

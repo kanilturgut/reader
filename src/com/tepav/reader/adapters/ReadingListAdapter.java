@@ -82,7 +82,9 @@ public class ReadingListAdapter extends ArrayAdapter<Object>{
                 holder.tvYayinAuthorInfo = (TextView) convertView.findViewById(R.id.tvYayinAuthorInfo);
             }
 
-            convertView.setTag(holder);
+            if (convertView != null) {
+                convertView.setTag(holder);
+            }
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
@@ -93,39 +95,45 @@ public class ReadingListAdapter extends ArrayAdapter<Object>{
             holder.tvTitleOfHaber.setText(((Haber) readingList.get(position)).getHtitle());
             Cache.getInstance().getImageFromCache(context, ((Haber) readingList.get(position)).getHimage(), holder.imageOfHaber);
 
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent detailIntent = new Intent(context, HaberDetailsActivity.class);
-                    detailIntent.putExtra("class", (Haber) readingList.get(position));
-                    context.startActivity(detailIntent);
-                }
-            });
+            if (convertView != null) {
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent detailIntent = new Intent(context, HaberDetailsActivity.class);
+                        detailIntent.putExtra("class", (Haber) readingList.get(position));
+                        context.startActivity(detailIntent);
+                    }
+                });
+            }
         } else if (instanceOfWhat(readingList.get(position)) == INSTANCE_OF_GUNLUK) {
             holder.tvGunlukTitle.setText(((Gunluk) readingList.get(position)).getBtitle());
             holder.tvGunlukAuthorInfo.setText(((Gunluk) readingList.get(position)).getPfullname());
             holder.tvGunlukContent.setText(Html.fromHtml(((Gunluk) readingList.get(position)).getBcontent()));
 
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent detailIntent = new Intent(context, GunlukDetailsActivity.class);
-                    detailIntent.putExtra("class", (Gunluk) readingList.get(position));
-                    context.startActivity(detailIntent);
-                }
-            });
+            if (convertView != null) {
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent detailIntent = new Intent(context, GunlukDetailsActivity.class);
+                        detailIntent.putExtra("class", (Gunluk) readingList.get(position));
+                        context.startActivity(detailIntent);
+                    }
+                });
+            }
         } else if (instanceOfWhat(readingList.get(position)) == INSTANCE_OF_YAYIN) {
             holder.tvYayinTitle.setText(((Yayin) readingList.get(position)).getYtitle());
             holder.tvYayinAuthorInfo.setText(((Yayin) readingList.get(position)).getYauthors() + " - " + ((Yayin) readingList.get(position)).getYtype());
 
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent detailIntent = new Intent(context, YayinDetailsActivity.class);
-                    detailIntent.putExtra("class", (Yayin) readingList.get(position));
-                    context.startActivity(detailIntent);
-                }
-            });
+            if (convertView != null) {
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent detailIntent = new Intent(context, YayinDetailsActivity.class);
+                        detailIntent.putExtra("class", (Yayin) readingList.get(position));
+                        context.startActivity(detailIntent);
+                    }
+                });
+            }
         }
 
 

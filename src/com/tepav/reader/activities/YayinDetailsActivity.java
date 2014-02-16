@@ -65,7 +65,7 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
                         intent.setDataAndType(path, "application/pdf");
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
-                    } catch (ActivityNotFoundException e) {
+                    } catch (ActivityNotFoundException ignored) {
 
                     }
                 }
