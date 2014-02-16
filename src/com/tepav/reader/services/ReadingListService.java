@@ -119,7 +119,12 @@ public class ReadingListService {
 
     public void delete(Haber haber, int type) {
 
-        Haber haberInList = baseDao.getHaberDao().queryBuilder().where(HaberDao.Properties.Haber_id.eq(haber.getHaber_id())).list().get(0);
+        List<Haber> haberList = baseDao.getHaberDao().queryBuilder().where(HaberDao.Properties.Haber_id.eq(haber.getHaber_id())).list();
+
+        if (haberList == null || haberList.size() == 0)
+            return;;
+
+        Haber haberInList = haberList.get(0);
 
         if (haberInList.getPersistanceType() == PERSISTANCE_TYPE_BOTH) {
             if (type == PERSISTANCE_TYPE_FAVORITES)
@@ -135,7 +140,12 @@ public class ReadingListService {
 
     public void delete(Gunluk gunluk, int type) {
 
-        Gunluk gunlukInList = baseDao.getGunlukDao().queryBuilder().where(GunlukDao.Properties.Gunluk_id.eq(gunluk.getGunluk_id())).list().get(0);
+        List<Gunluk> gunlukList = baseDao.getGunlukDao().queryBuilder().where(GunlukDao.Properties.Gunluk_id.eq(gunluk.getGunluk_id())).list();
+
+        if (gunlukList == null || gunlukList.size() == 0 )
+            return;
+
+        Gunluk gunlukInList = gunlukList.get(0);
 
         if (gunlukInList.getPersistanceType() == PERSISTANCE_TYPE_BOTH) {
             if (type == PERSISTANCE_TYPE_FAVORITES)
@@ -151,7 +161,12 @@ public class ReadingListService {
 
     public void delete(Yayin yayin, int type) {
 
-        Yayin yayinInList = baseDao.getYayinDao().queryBuilder().where(YayinDao.Properties.Yayin_id.eq(yayin.getYayin_id())).list().get(0);
+        List<Yayin> yayinList = baseDao.getYayinDao().queryBuilder().where(YayinDao.Properties.Yayin_id.eq(yayin.getYayin_id())).list();
+
+        if (yayinList == null || yayinList.size() == 0)
+            return;
+
+        Yayin yayinInList = yayinList.get(0);
 
         if (yayinInList.getPersistanceType() == PERSISTANCE_TYPE_BOTH) {
             if (type == PERSISTANCE_TYPE_FAVORITES)
