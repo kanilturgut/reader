@@ -232,6 +232,7 @@ public class MainScreenActivity extends Activity {
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getResources().getString(R.string.exit_question))
+                .setTitle(getResources().getString(R.string.exit_title))
                 .setCancelable(false)
                 .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

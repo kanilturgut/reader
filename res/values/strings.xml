@@ -6,6 +6,7 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
+    <string name="exit_title">Dikkat</string>
     <string name="exit_question">Uygulama kapanacaktır. Devam etmek istiyor musunuz?</string>
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
