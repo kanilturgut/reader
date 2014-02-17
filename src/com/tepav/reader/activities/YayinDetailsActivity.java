@@ -210,6 +210,16 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
         protected void onPostExecute(java.io.File file) {
             downloadedPDF = file;
             buttonOpenPDF.setText(getResources().getString(R.string.open_doc));
+
+            try {
+                Uri path = Uri.fromFile(downloadedPDF);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(path, "application/pdf");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+
+            }
         }
 
         @Override
@@ -262,6 +272,16 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
         } else {
             downloadedPDF = newFile;
             buttonOpenPDF.setText(getResources().getString(R.string.open_doc));
+
+            try {
+                Uri path = Uri.fromFile(downloadedPDF);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(path, "application/pdf");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+
+            }
         }
     }
 }

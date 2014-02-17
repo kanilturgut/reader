@@ -51,16 +51,7 @@ public class PDFDownloadActvity extends Activity {
             @Override
             public void onClick(View view) {
                 if (downloadedPDF != null) {
-                    try {
-                        Uri path = Uri.fromFile(downloadedPDF);
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(path, "application/pdf");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        finish();
-                    } catch (ActivityNotFoundException e) {
-
-                    }
+                    openDocWithExternalReaderApp(downloadedPDF);
                 }
             }
         });
@@ -136,6 +127,7 @@ public class PDFDownloadActvity extends Activity {
         protected void onPostExecute(File file) {
             downloadedPDF = file;
             buttonOpenDownloadedPDF.setText(getResources().getString(R.string.open_doc));
+            openDocWithExternalReaderApp(downloadedPDF);
         }
 
         @Override
@@ -153,6 +145,20 @@ public class PDFDownloadActvity extends Activity {
         } else {
             downloadedPDF = newFile;
             buttonOpenDownloadedPDF.setText(getResources().getString(R.string.open_doc));
+            openDocWithExternalReaderApp(downloadedPDF);
+        }
+    }
+
+    private void openDocWithExternalReaderApp(File file) {
+        try {
+            Uri path = Uri.fromFile(file);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(path, "application/pdf");
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        } catch (ActivityNotFoundException e) {
+
         }
     }
 }
