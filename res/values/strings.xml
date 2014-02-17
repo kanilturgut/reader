@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Reader</string>
+    <string name="app_name">Tepav Okuyucu</string>
     <string name="splash_concentDescrition">Splash</string>
 
     <string name="drawer_open">Open navigation drawer</string>
@@ -21,7 +21,7 @@
 
     <string name="share_with">Bununla paylaş</string>
 
-    <string name="no_internet">İnternet bağlantınız bulunmadığı için Okuma Listesi ve Favoriler haricindeki menüleri kullanamazsınız.</string>
+    <string name="no_internet">İnternet bağlantınız bulunmadığı için Okuma Listesi ve Favoriler haricindeki menüleri kullanamazsınız</string>
     <string name="ok">Tamam</string>
     <string name="cancel">İptal</string>
 
