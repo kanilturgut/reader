@@ -154,6 +154,7 @@ public class MainScreenActivity extends Activity {
             final Dialog dialog = new Dialog(MainScreenActivity.this);
             dialog.setContentView(R.layout.custom_newsletter_dialog);
             dialog.setTitle(getResources().getString(R.string.mail_list));
+            dialog.setCancelable(false);
 
             Button buttonDialogYes = (Button) dialog.findViewById(R.id.buttonDialogYes);
             Button buttonDialogNo = (Button) dialog.findViewById(R.id.buttonDialogNo);
