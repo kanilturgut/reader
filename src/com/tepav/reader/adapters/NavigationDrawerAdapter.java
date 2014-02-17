@@ -59,7 +59,7 @@ public class NavigationDrawerAdapter extends ArrayAdapter<String>{
                 imageOfItem.setImageResource(R.drawable.reports);
                 break;
             case 4:
-                imageOfItem.setImageResource(R.drawable.readlist);
+                imageOfItem.setImageResource(R.drawable.readlist_side_menu);
                 break;
             case 5:
                 imageOfItem.setImageResource(R.drawable.printed);
