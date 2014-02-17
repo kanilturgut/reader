@@ -65,7 +65,7 @@ public class Cache {
 
         @Override
         protected void onPreExecute() {
-            InputStream is = context.getResources().openRawResource(R.drawable.ic_action_picture);
+            InputStream is = context.getResources().openRawResource(R.drawable.no_image);
             iv.setImageBitmap(BitmapFactory.decodeStream(is));
         }
 
@@ -90,14 +90,14 @@ public class Cache {
                 iv.setImageBitmap(result);
             }
             else {
-                InputStream is = context.getResources().openRawResource(R.drawable.ic_action_picture);
+                InputStream is = context.getResources().openRawResource(R.drawable.no_image);
                 iv.setImageBitmap(BitmapFactory.decodeStream(is));
             }
         }
 
         @Override
         protected void onCancelled() {
-            InputStream is = context.getResources().openRawResource(R.drawable.ic_action_picture);
+            InputStream is = context.getResources().openRawResource(R.drawable.no_image);
             iv.setImageBitmap(BitmapFactory.decodeStream(is));
         }
     }

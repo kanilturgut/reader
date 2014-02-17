@@ -14,7 +14,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/ic_action_picture"
+            android:src="@drawable/no_image"
             android:layout_marginBottom="10dp"/>
 
     <TextView
