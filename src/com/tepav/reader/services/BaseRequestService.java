@@ -28,10 +28,11 @@ public class BaseRequestService {
     private static BaseRequestService instance;
     private static DefaultHttpClient  defaultHttpClient;
 
-    public static final String DOMAIN      = "http://test.vklab.net/tepav/server/";
-    public static final String OP_HABER    = "/tepav/haber";
-    public static final String OP_GUNLUK   = "/tepav/gunluk";
-    public static final String OP_YAYIN    = "/tepav/yayin";
+    public static final String DOMAIN               = "http://test.vklab.net/tepav/server/";
+    public static final String OP_HABER             = "/tepav/haber";
+    public static final String OP_GUNLUK            = "/tepav/gunluk";
+    public static final String OP_YAYIN             = "/tepav/yayin";
+    public static final String OP_REGISTER_EMAIL    = "/tepav/kullanici_ekle";
 
     public static final int GET  = 0;
     public static final int POST = 1;
