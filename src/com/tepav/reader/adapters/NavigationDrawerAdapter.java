@@ -47,7 +47,7 @@ public class NavigationDrawerAdapter extends ArrayAdapter<String>{
         ImageView imageOfItem = (ImageView) rowView.findViewById(R.id.imageOfItem);
         switch (position) {
             case 0:
-                imageOfItem.setImageResource(R.drawable.calendar);
+                imageOfItem.setImageResource(R.drawable.notes);
                 break;
             case 1:
                 imageOfItem.setImageResource(R.drawable.calendar);
@@ -59,7 +59,7 @@ public class NavigationDrawerAdapter extends ArrayAdapter<String>{
                 imageOfItem.setImageResource(R.drawable.reports);
                 break;
             case 4:
-                imageOfItem.setImageResource(R.drawable.notes);
+                imageOfItem.setImageResource(R.drawable.readlist);
                 break;
             case 5:
                 imageOfItem.setImageResource(R.drawable.printed);
