@@ -10,12 +10,11 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.*;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
+import android.widget.*;
 import com.tepav.reader.R;
 import com.tepav.reader.adapters.*;
+import com.tepav.reader.delegates.EmailListRegisterServiceDelegate;
+import com.tepav.reader.services.EmailListRegisterService;
 import com.tepav.reader.services.ReadingListService;
 import com.tepav.reader.utils.Util;
 
@@ -25,7 +24,7 @@ import com.tepav.reader.utils.Util;
  * Date: 02.02.2014
  * Time: 23:03
  */
-public class MainScreenActivity extends Activity {
+public class MainScreenActivity extends Activity implements EmailListRegisterServiceDelegate{
 
     private DrawerLayout mDrawerLayout = null;
     private ActionBarDrawerToggle mDrawerToggle = null;
@@ -45,6 +44,8 @@ public class MainScreenActivity extends Activity {
     private static final int OKUMA_LISTESI = 6;
     private static final int FAVORILER = 7;
     private static final int MAIL_LISTESI = 8;
+
+    private EmailListRegisterService emailListRegisterService = null;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,7 @@ public class MainScreenActivity extends Activity {
                     if (i == OKUMA_LISTESI || i == FAVORILER) {
                         selectItem(i);
                     } else {
-                        createAlertDialog();
+                        createAlertDialog(getResources().getString(R.string.no_internet));
                     }
                 } else {
                     selectItem(i);
@@ -103,12 +104,14 @@ public class MainScreenActivity extends Activity {
 
         if (savedInstanceState == null) {
             if (!Util.isNetworkAvailable(this)) {
-                createAlertDialog();
+                createAlertDialog(getResources().getString(R.string.no_internet));
                 selectItem(OKUMA_LISTESI);
             } else {
                 selectItem(HABER);
             }
         }
+
+        emailListRegisterService = new EmailListRegisterService(this);
     }
 
     @Override
@@ -159,10 +162,25 @@ public class MainScreenActivity extends Activity {
             Button buttonDialogYes = (Button) dialog.findViewById(R.id.buttonDialogYes);
             Button buttonDialogNo = (Button) dialog.findViewById(R.id.buttonDialogNo);
 
+            final EditText editTextEmail = (EditText) dialog.findViewById(R.id.editTextUserEMail);
+
             buttonDialogYes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    dialog.dismiss();
+                    String email = editTextEmail.getText().toString().trim();
+
+                    if(editTextEmail != null || !editTextEmail.equals("")) {
+                        if (email.contains("@")) {
+                            emailListRegisterService.registerForEmailList(email);
+                            dialog.dismiss();
+                        } else {
+                            editTextEmail.setText("");
+                            createAlertDialog(getResources().getString(R.string.email_wrong));
+                        }
+
+                    } else {
+                        createAlertDialog(getResources().getString(R.string.email_wrong));
+                    }
                 }
             });
 
@@ -176,8 +194,18 @@ public class MainScreenActivity extends Activity {
             dialog.show();
         }
 
-
         mDrawerLayout.closeDrawer(myRelativeDrawerLayout);
+    }
+
+    @Override
+    public void registerForEmailListRequestDidFinish(int status) {
+        if (status == EmailListRegisterService.STATUS_OK) {
+            createAlertDialog(getResources().getString(R.string.email_status_ok));
+        } else if (status == EmailListRegisterService.STATUS_FAIL) {
+            createAlertDialog(getResources().getString(R.string.email_status_fail));
+        } else if (status == EmailListRegisterService.STATUS_EXISTS) {
+            createAlertDialog(getResources().getString(R.string.email_status_exist));
+        }
     }
 
     public class MainContentFragment extends Fragment {
@@ -259,9 +287,9 @@ public class MainScreenActivity extends Activity {
         }
     }
 
-    private void createAlertDialog() {
+    private void createAlertDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getResources().getString(R.string.no_internet))
+        builder.setMessage(message)
                 .setCancelable(false)
                 .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

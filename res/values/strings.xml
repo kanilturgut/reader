@@ -29,6 +29,11 @@
     <string name="newsletter">Mail listesine kaydolmak için lütfen geçerli bir eposta adresi giriniz</string>
     <string name="hint_email">Eposta adresiniz</string>
 
+    <string name="email_status_ok">Mail listemize başarı ile kayıt oldunuz</string>
+    <string name="email_status_fail">Kayıt olamadınız. Lütfen daha sonra tekrar deneyiniz</string>
+    <string name="email_status_exist">Kayıt olmaya çalıştığınız eposta adresi sistemimizde mevcuttur</string>
+    <string name="email_wrong">Lütfen geçerli bir eposta adresi giriniz</string>
+
 
     <string-array name="menus">
         <item>Haberler</item>
@@ -41,4 +46,5 @@
         <item>Favoriler</item>
         <item>Mail Listemize Kaydolun</item>
     </string-array>
+
 </resources>

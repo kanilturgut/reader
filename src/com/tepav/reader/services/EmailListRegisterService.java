@@ -65,10 +65,12 @@ public class EmailListRegisterService {
              JSONObject jsonObject = new JSONObject(responseString);
              if (jsonObject.has("result") && jsonObject.getString("result").equals("ok"))
                  this.emailListRegisterServiceDelegate.registerForEmailListRequestDidFinish(STATUS_OK);
-             else if(jsonObject.has("result") && jsonObject.getString("error").equals("error"))
-                 this.emailListRegisterServiceDelegate.registerForEmailListRequestDidFinish(STATUS_EXISTS);
-             else
-                 this.emailListRegisterServiceDelegate.registerForEmailListRequestDidFinish(STATUS_FAIL);
+             else if(jsonObject.has("result") && jsonObject.getString("result").equals("error")) {
+                 if (jsonObject.getString("error").equals("E-Posta adresiniz hatalı!"))
+                     this.emailListRegisterServiceDelegate.registerForEmailListRequestDidFinish(STATUS_FAIL);
+                 else
+                     this.emailListRegisterServiceDelegate.registerForEmailListRequestDidFinish(STATUS_EXISTS);
+             }
          }
          catch (Exception e) {
              e.printStackTrace();
