@@ -76,7 +76,7 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/readlist"
+                    android:background="@drawable/read_list"
                     android:layout_weight="1"/>
 
             <Button
@@ -84,7 +84,7 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/readlist_selected"
+                    android:background="@drawable/read_list_selected"
                     android:visibility="gone"
                     android:layout_weight="1"/>
 

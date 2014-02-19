@@ -26,9 +26,9 @@ import com.tepav.reader.utils.Util;
  */
 public class MainScreenActivity extends Activity implements EmailListRegisterServiceDelegate{
 
-    private DrawerLayout mDrawerLayout = null;
+    public static DrawerLayout mDrawerLayout = null;
     private ActionBarDrawerToggle mDrawerToggle = null;
-    private RelativeLayout myRelativeDrawerLayout = null;
+    public static RelativeLayout myRelativeDrawerLayout = null;
 
     private ListView mDrawerList = null;
     private ListView listOfMainContent = null;

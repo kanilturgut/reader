@@ -1,9 +1,12 @@
 package com.tepav.reader.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Html;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 import com.tepav.reader.R;
 import com.tepav.reader.activities.GunlukDetailsActivity;
 import com.tepav.reader.activities.HaberDetailsActivity;
+import com.tepav.reader.activities.MainScreenActivity;
 import com.tepav.reader.activities.YayinDetailsActivity;
 import com.tepav.reader.cache.Cache;
 import com.tepav.reader.models.Gunluk;
@@ -52,6 +56,15 @@ public class ReadingListAdapter extends ArrayAdapter<Object>{
         if (persistanceType == ReadingListService.PERSISTANCE_TYPE_READ_LIST)
             readingList = readingListService.getReadingList();
 
+
+        if (readingList.size() == 0) {
+            if (persistanceType == ReadingListService.PERSISTANCE_TYPE_FAVORITES)
+                createAlertDialog(context.getResources().getString(R.string.fav_list_empty));
+            else
+                createAlertDialog(context.getResources().getString(R.string.read_list_empty));
+
+            MainScreenActivity.mDrawerLayout.openDrawer(Gravity.START);
+        }
 
         this.addAll(readingList);
         this.notifyDataSetChanged();
@@ -167,5 +180,18 @@ public class ReadingListAdapter extends ArrayAdapter<Object>{
             Log.e("ReadingListAdapter", "Unknown class type");
             return -1;
         }
+    }
+
+    private void createAlertDialog(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }
