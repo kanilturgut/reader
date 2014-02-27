@@ -3,9 +3,15 @@ package com.tepav.reader.utils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.view.MenuItem;
 import com.tepav.reader.R;
+import com.tepav.reader.activities.SplashActivity;
+
+import java.util.Locale;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,7 +32,6 @@ public class Util {
         return (networkInfo != null);
     }
 
-
     public static  void createAlertDialog(Context context, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(message)
@@ -38,5 +43,30 @@ public class Util {
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    public static void changeLocale(Context context, String country) {
+
+        Locale locale = null;
+        SharedPreferences.Editor editor = SplashActivity.languagePreferences.edit();
+
+        if (country.equals("tr")) {
+            locale = new Locale("tr", "TR");
+            editor.putString("language", "TR");
+
+        } else {
+            locale = new Locale("en", "US");
+            editor.putString("language", "EN");
+        }
+
+        editor.commit();
+
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        context.getResources().updateConfiguration(config, null);
+
+
+
     }
 }

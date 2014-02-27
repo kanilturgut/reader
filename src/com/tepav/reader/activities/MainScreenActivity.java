@@ -124,26 +124,27 @@ public class MainScreenActivity extends Activity implements EmailListRegisterSer
             return true;
         }
 
-        if (item.getItemId() == R.id.action_refresh) {
+        if (item.getItemId() == R.id.action_change_language) {
 
-            Locale def = getResources().getConfiguration().locale;
+            String language = SplashActivity.languagePreferences.getString("language", "null");
 
-            String language = def.getLanguage();
+            if (!language.equals("null")) {
+                if (language.equals("TR")) {
+                    Util.changeLocale(this, "en");
+                    item.setIcon(getResources().getDrawable(R.drawable.en_to_tr));
+                } else {
+                    Util.changeLocale(this, "tr");
+                    item.setIcon(getResources().getDrawable(R.drawable.tr_to_en));
+                }
+            } else {
+                Util.changeLocale(this, "tr");
+                item.setIcon(getResources().getDrawable(R.drawable.tr_to_en));
+            }
 
-            if (def.getLanguage().equals("tr"))
-                def = new Locale("en", "US");
-            else
-                def = new Locale("tr", "TR");
-
-
-            Locale.setDefault(def);
-            Configuration config = new Configuration();
-            config.locale = def;
-            MainScreenActivity.this.getResources().updateConfiguration(config, null);
-
-            Intent a = new Intent(this, MainScreenActivity.class);
-            a.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(a);
+            //clear stack and restart MainActivity
+            Intent updateIntent = new Intent(this, MainScreenActivity.class);
+            updateIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(updateIntent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -237,6 +238,16 @@ public class MainScreenActivity extends Activity implements EmailListRegisterSer
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main_screen, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_change_language);
+
+        if (SplashActivity.languagePreferences.getString("language", "null").equals("TR")) {
+            menuItem.setIcon(getResources().getDrawable(R.drawable.tr_to_en));
+        } else if (SplashActivity.languagePreferences.getString("language", "null").equals("EN")) {
+            menuItem.setIcon(getResources().getDrawable(R.drawable.en_to_tr));
+        }
+
+
         return super.onCreateOptionsMenu(menu);
     }
 

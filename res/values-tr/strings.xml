@@ -50,4 +50,6 @@
         <item>Bültene Kaydol</item>
     </string-array>
 
+    <string name="change_language">Dili Değiştir</string>
+
 </resources>

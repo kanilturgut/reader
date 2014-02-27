@@ -50,4 +50,6 @@
         <item>Subscribe</item>
     </string-array>
 
+    <string name="change_language">Change Language</string>
+
 </resources>
