@@ -2,6 +2,7 @@ package com.tepav.reader.activities;
 
 import android.app.*;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -124,11 +125,25 @@ public class MainScreenActivity extends Activity implements EmailListRegisterSer
         }
 
         if (item.getItemId() == R.id.action_refresh) {
-            Locale locale = new Locale("tr_TR");
-            Locale.setDefault(locale);
+
+            Locale def = getResources().getConfiguration().locale;
+
+            String language = def.getLanguage();
+
+            if (def.getLanguage().equals("tr"))
+                def = new Locale("en", "US");
+            else
+                def = new Locale("tr", "TR");
+
+
+            Locale.setDefault(def);
             Configuration config = new Configuration();
-            config.locale = locale;
+            config.locale = def;
             MainScreenActivity.this.getResources().updateConfiguration(config, null);
+
+            Intent a = new Intent(this, MainScreenActivity.class);
+            a.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(a);
         }
 
         return super.onOptionsItemSelected(item);
