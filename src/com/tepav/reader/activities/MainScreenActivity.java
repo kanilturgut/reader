@@ -18,6 +18,8 @@ import com.tepav.reader.services.EmailListRegisterService;
 import com.tepav.reader.services.ReadingListService;
 import com.tepav.reader.utils.Util;
 
+import java.util.Locale;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Kadir Anil Turgut
@@ -31,7 +33,6 @@ public class MainScreenActivity extends Activity implements EmailListRegisterSer
     public static RelativeLayout myRelativeDrawerLayout = null;
 
     private ListView mDrawerList = null;
-    private ListView listOfMainContent = null;
     public int position = 0;
     private String[] TITLES;
 
@@ -46,6 +47,7 @@ public class MainScreenActivity extends Activity implements EmailListRegisterSer
     private static final int MAIL_LISTESI = 8;
 
     private EmailListRegisterService emailListRegisterService = null;
+    private AlertDialog.Builder builder;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -119,6 +121,14 @@ public class MainScreenActivity extends Activity implements EmailListRegisterSer
 
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
+        }
+
+        if (item.getItemId() == R.id.action_refresh) {
+            Locale locale = new Locale("tr_TR");
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            MainScreenActivity.this.getResources().updateConfiguration(config, null);
         }
 
         return super.onOptionsItemSelected(item);
@@ -208,6 +218,13 @@ public class MainScreenActivity extends Activity implements EmailListRegisterSer
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main_screen, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     public class MainContentFragment extends Fragment {
         public static final String ARG_MAIN_CONTENT_NUMBER = "main_content_number";
 
@@ -223,7 +240,7 @@ public class MainScreenActivity extends Activity implements EmailListRegisterSer
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
             View rootView = inflater.inflate(R.layout.fragment_main_content, container, false);
-            listOfMainContent = (ListView) rootView.findViewById(R.id.lvMainContent);
+            ListView listOfMainContent = (ListView) rootView.findViewById(R.id.lvMainContent);
 
             switch (position) {
                 case HABER:
@@ -282,7 +299,7 @@ public class MainScreenActivity extends Activity implements EmailListRegisterSer
     protected void onRestart() {
         super.onRestart();
         Log.d("MainActivity", "onRestart");
-        if (MainScreenActivity.this.position == 6 || MainScreenActivity.this.position == 7) {
+        if (MainScreenActivity.this.position == OKUMA_LISTESI || MainScreenActivity.this.position == FAVORILER) {
             selectItem(position);
         }
     }

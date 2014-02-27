@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tepav Reader</string>
+    <string name="splash_content_description">Splash</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="exit_title">Attention</string>
+    <string name="exit_question">Application will close. Would you like to continue?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="doc_downloading">File is loading %</string>
+    <string name="open_doc">Click here to open document</string>
+    <string name="not_found_doc">File not found!</string>
+    <string name="no_doc">There is no document belongs to this publication</string>
+
+    <string name="pd_loading">Loading…</string>
+    <string name="pd_wait">Fetching data</string>
+
+    <string name="share_with">Share with</string>
+
+    <string name="no_internet">You can\'t access other menus except Reading List and Favorite List as you have no Internet access</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="mail_list">Mail list</string>
+    <string name="newsletter">Please enter your email address to enroll mail list</string>
+    <string name="hint_email">Your email</string>
+
+    <string name="email_status_ok">You have been successfully enrolled our mail list</string>
+    <string name="email_status_fail">Failed, please try again later</string>
+    <string name="email_status_exist">The user already exist in our mail list</string>
+    <string name="email_wrong">Please enter a valid email address</string>
+
+    <string name="read_list_empty">No item in your reading list</string>
+    <string name="fav_list_empty">No item in your favorite list</string>
+
+
+    <string-array name="menus">
+        <item>News</item>
+        <item>Blog</item>
+        <item>Research and Publications</item>
+        <item>Reports</item>
+        <item>Notes</item>
+        <item>Publications</item>
+        <item>Reading List</item>
+        <item>Favorite List</item>
+        <item>Subscribe</item>
+    </string-array>
+
+</resources>

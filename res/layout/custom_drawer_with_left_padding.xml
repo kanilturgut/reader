@@ -9,7 +9,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:layout_marginLeft="48dp"
-            android:contentDescription="@string/splash_concentDescrition"
+            android:contentDescription="@string/splash_content_description"
             android:src="@drawable/appicon" />
 
     <TextView

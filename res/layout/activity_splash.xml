@@ -8,7 +8,7 @@
             android:layout_height="match_parent"
             android:scaleType="fitXY"
             android:src="@drawable/splash"
-            android:contentDescription="@string/splash_concentDescrition"/>
+            android:contentDescription="@string/splash_content_description"/>
 
 </RelativeLayout>
 
