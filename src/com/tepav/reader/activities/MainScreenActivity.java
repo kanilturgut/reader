@@ -195,7 +195,7 @@ public class MainScreenActivity extends Activity implements EmailListRegisterSer
                 public void onClick(View view) {
                     String email = editTextEmail.getText().toString().trim();
 
-                    if(editTextEmail != null || !editTextEmail.equals("")) {
+                    if(email != null && !email.equals("")) {
                         if (email.contains("@")) {
                             emailListRegisterService.registerForEmailList(email);
                             dialog.dismiss();

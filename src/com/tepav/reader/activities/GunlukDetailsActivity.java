@@ -109,7 +109,7 @@ public class GunlukDetailsActivity extends Activity implements View.OnClickListe
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, gunluk.getBtitle());
-                shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, gunluk.getBtitle() + " " + url);
                 startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_with)));
                 break;
         }

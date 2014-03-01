@@ -153,7 +153,7 @@ public class YayinDetailsActivity extends Activity implements View.OnClickListen
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, yayin.getYtitle());
-                shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, yayin.getYtitle() + " " + url);
                 startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_with)));
                 break;
         }
