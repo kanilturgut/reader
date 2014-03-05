@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Tepav Okuyucu</string>
+    <string name="app_name">tepav</string>
     <string name="splash_content_description">Splash</string>
 
     <string name="drawer_open">Open navigation drawer</string>
